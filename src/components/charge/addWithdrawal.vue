@@ -155,7 +155,6 @@ export default {
       text-align: center;
       line-height: 45px;
       font-size:18px;
-      font-family:PingFangSC-Regular,PingFang SC;
       font-weight:400;
       color:rgba(255,255,255, 1);
     }
