@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4f4405f-5f84-40c7-b433-75b1be41c261" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/charge/addWithdrawal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/charge/addWithdrawal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Signin/Signin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buyMill/buyMill.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buyMill/buyMill.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buyMill/sale_card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buyMill/sale_card.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,14 +30,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="html" value="1" />
           <entry key="js" value="1" />
-          <entry key="vue" value="7" />
+          <entry key="vue" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="HTML" value="1" />
           <entry key="JavaScript" value="1" />
-          <entry key="Vue.js" value="7" />
+          <entry key="Vue.js" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -44,14 +49,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="12" />
-          <entry key="vue" value="1970" />
+          <entry key="js" value="27" />
+          <entry key="vue" value="3876" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="12" />
-          <entry key="Vue.js" value="1970" />
+          <entry key="JavaScript" value="27" />
+          <entry key="Vue.js" value="3876" />
         </counts>
       </usages-collector>
     </session>
@@ -70,8 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/buyMill/buyMill.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9196">
-              <caret line="506" column="88" selection-start-line="501" selection-start-column="7" selection-end-line="506" selection-end-column="88" />
+            <state relative-caret-position="309">
+              <caret line="707" column="86" lean-forward="true" selection-start-line="701" selection-start-column="5" selection-end-line="707" selection-end-column="86" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" />
@@ -85,12 +90,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/buyMill/sale_card.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="2179">
+              <caret line="145" column="23" lean-forward="true" selection-start-line="145" selection-start-column="23" selection-end-line="145" selection-end-column="23" />
               <folding>
                 <element signature="n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#div#2;n#div#1;n#div#0;n#template#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -99,11 +103,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/router/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3363">
-              <caret line="179" column="34" selection-start-line="179" selection-start-column="34" selection-end-line="179" selection-end-column="34" />
+            <state relative-caret-position="233">
+              <caret line="166" column="5" lean-forward="true" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/Signin/Signin.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="185" column="29" lean-forward="true" selection-start-line="185" selection-start-column="29" selection-end-line="185" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -126,11 +139,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/charge/addWithdrawal.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="158" column="33" lean-forward="true" selection-start-line="158" selection-start-column="33" selection-end-line="158" selection-end-column="33" />
+            <state relative-caret-position="310">
+              <caret line="153" column="24" lean-forward="true" selection-start-line="153" selection-start-column="24" selection-end-line="153" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -138,8 +151,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/buyMill/contract.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1026">
-              <caret line="54" selection-start-line="54" selection-end-line="54" selection-end-column="9" />
+            <state relative-caret-position="209">
+              <caret line="29" column="19" lean-forward="true" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -149,14 +162,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>buy_list</find>
-      <find>buy_user</find>
       <find>buy_yhquan_label</find>
       <find>buy_yhquan_info</find>
       <find>buy_yhquan_label_icon</find>
@@ -174,6 +186,19 @@
       <find>addWithdrawal</find>
       <find>back_cv</find>
       <find>dizi</find>
+      <find>sale</find>
+      <find>signin_head</find>
+      <find>signin_body</find>
+      <find>signin_box_title</find>
+      <find>signin_sizeline_bg</find>
+      <find>签到</find>
+      <find>signin_now_bg</find>
+      <find>line_icon</find>
+      <find>signin_sizeline</find>
+      <find>signin_box first</find>
+      <find>first</find>
+      <find>page_scoll</find>
+      <find>signin_box</find>
     </findStrings>
     <replaceStrings>
       <replace>26,26,26</replace>
@@ -188,12 +213,14 @@
       <list>
         <option value="$PROJECT_DIR$/src/App.vue" />
         <option value="$PROJECT_DIR$/src/components/sale_card/sale_card.vue" />
-        <option value="$PROJECT_DIR$/src/components/buyMill/sale_card.vue" />
-        <option value="$PROJECT_DIR$/src/components/buyMill/buyMill.vue" />
         <option value="$PROJECT_DIR$/src/components/charge/withdrawal.vue" />
-        <option value="$PROJECT_DIR$/src/router/index.js" />
         <option value="$PROJECT_DIR$/src/components/charge/withdrawalAddress.vue" />
         <option value="$PROJECT_DIR$/src/components/charge/addWithdrawal.vue" />
+        <option value="$PROJECT_DIR$/src/components/buyMill/buyMill.vue" />
+        <option value="$PROJECT_DIR$/src/router/index.js" />
+        <option value="$PROJECT_DIR$/src/components/Signin/Signin.html" />
+        <option value="$PROJECT_DIR$/src/components/buyMill/sale_card.vue" />
+        <option value="$PROJECT_DIR$/src/components/Signin/Signin.vue" />
       </list>
     </option>
   </component>
@@ -277,7 +304,7 @@
               <item name="qklhtml" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="charge" type="462c0819:PsiDirectoryNode" />
+              <item name="Signin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="qklhtml" type="b2602c69:ProjectViewProjectNode" />
@@ -293,6 +320,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -333,12 +361,12 @@
       <workItem from="1590763970262" duration="3587000" />
       <workItem from="1590769159415" duration="3683000" />
       <workItem from="1590841084452" duration="10866000" />
-      <workItem from="1590940485922" duration="698000" />
+      <workItem from="1590940485922" duration="8201000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19177000" />
+    <option name="totallyTimeSpent" value="26680000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -353,7 +381,7 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24969843" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24969843" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -365,7 +393,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32922733" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3295964" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3295964" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -386,41 +414,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/buyMill/buyMill.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9196">
-          <caret line="506" column="88" selection-start-line="501" selection-start-column="7" selection-end-line="506" selection-end-column="88" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#style#0;n#div#4;n#div#2;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-checkbox#0;n#div#4;n#div#2;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/buyMill/sale_card.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
-          <folding>
-            <element signature="n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#2;n#div#1;n#div#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3363">
-          <caret line="179" column="34" selection-start-line="179" selection-start-column="34" selection-end-line="179" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/charge/withdrawal.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7980">
@@ -435,17 +428,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/buyMill/contract.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/charge/addWithdrawal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="54" selection-start-line="54" selection-end-line="54" selection-end-column="9" />
+        <state relative-caret-position="310">
+          <caret line="153" column="24" lean-forward="true" selection-start-line="153" selection-start-column="24" selection-end-line="153" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/charge/addWithdrawal.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/Signin/Signin.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="158" column="33" lean-forward="true" selection-start-line="158" selection-start-column="33" selection-end-line="158" selection-end-column="33" />
+        <state relative-caret-position="76">
+          <caret line="4" column="16" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/buyMill/contract.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="29" column="19" lean-forward="true" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/buyMill/sale_card.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2179">
+          <caret line="145" column="23" lean-forward="true" selection-start-line="145" selection-start-column="23" selection-end-line="145" selection-end-column="23" />
+          <folding>
+            <element signature="n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/buyMill/buyMill.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="707" column="86" lean-forward="true" selection-start-line="701" selection-start-column="5" selection-end-line="707" selection-end-column="86" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#style#0;n#div#4;n#div#2;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-checkbox#0;n#div#4;n#div#2;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="166" column="5" lean-forward="true" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Signin/Signin.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="185" column="29" lean-forward="true" selection-start-line="185" selection-start-column="29" selection-end-line="185" selection-end-column="29" />
         </state>
       </provider>
     </entry>

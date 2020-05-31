@@ -124,7 +124,7 @@ const router = new Router({
     // 优惠券
     {
       path: '/buyMill/sale_card',
-      name: 'sale_card',
+      name: 'salecard',
       component: () => import('../components/buyMill/sale_card.vue')
     },
     // 合同
@@ -162,6 +162,12 @@ const router = new Router({
       path: '/chargeAlipy/:unit',
       name: 'chargeAlipy',
       component: () => import('../components/charge/chargeAlipy.vue')
+    },
+    // 每日签到
+    {
+      path: '/Signin/:unit',
+      name: 'Signin',
+      component: () => import('../components/Signin/Signin.vue')
     },
     // 提现
     {

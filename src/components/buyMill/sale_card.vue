@@ -5,8 +5,7 @@
           <img src="../../assets/public_back.png" alt="icon"/>
         </div>
         <div class="text_con">选择优惠券</div>
-        <div class="icon_right">
-        </div>
+        <div class="icon_right"></div>
       </div>
       <div class="card_list">
         <div class="card_item">
@@ -60,7 +59,7 @@
 
 <script>
 export default {
-  name:"sale_card",
+  name: 'salecard',
   data () {
     return {
     }

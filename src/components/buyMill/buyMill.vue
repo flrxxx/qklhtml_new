@@ -807,11 +807,8 @@ export default {
           font-weight:400;
           color:rgba(0, 210, 214, 1);
         }
-
       }
     }
   }
 }
-
-
 </style>
