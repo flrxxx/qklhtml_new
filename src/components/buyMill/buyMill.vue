@@ -58,19 +58,19 @@
             </div>
           </div>
         </div>
-        <router-link to="/buyMill/sale_card">
-        <div class="buy_yhquan" >
+
+        <div class="buy_yhquan" @click="salepage(saleflag)">
           <div class="buy_yhquan_label">
             <i class="buy_yhquan_label_icon"><img src="../../assets/team_buy_coupon.png" ></i>
             <font class="buy_yhquan_label_text">现金券</font>
           </div>
           <div class="buy_yhquan_info">
-            <font class="buy_yhquan_label_text" style="margin-right: 10px;">1张可用</font>
-            <i class="buy_yhquan_label_right_icon"><img src="../../assets/team_buy_right.png" ></i>
+            <font class="buy_yhquan_label_text" :class="hasdate">{{salecard}}</font>
+            <i class="buy_yhquan_label_right_icon" v-show="!saleflag"><img src="../../assets/team_buy_right.png" ></i>
           </div>
         </div>
-        </router-link>
-        <div class="total">需支付  USDT<font>{{ number * usdt_num }}</font></div>
+
+        <div class="total">需支付  USDT<font>{{ number * usdt_num - salenum < 0 ? 0 : number * usdt_num - salenum}}</font></div>
       </div>
       <div class="buy_user">
         <div class="buy_user1">合同签署</div>
@@ -150,6 +150,10 @@ export default {
       linewidth: 10, // 线条粗细，选填
       color: '#FF0000', // 线条颜色，选填
       background: '#000', // 线条背景，选填
+      saleflag: true,
+      salecard: '正在获取优惠券',
+      salenum: 0,
+      hasdate: 'nothing',
       imgsrc: '',
       ctx: null,
       point: {
@@ -212,6 +216,34 @@ export default {
             })
           }
         })
+      this.$post('/coupon/get').then(res => {
+        if(this.$route.params.id){
+          if(res.data.length === 0){
+            this.saleflag = true;
+            this.salecard = '暂无可用现金券';
+            this.hasdate = 'nothing';
+          }else{
+            for(var i = 0; i < res.data.length; i++){
+              if(res.data[i].cash_coupon_id == this.$route.params.id){
+                this.saleflag = false
+                this.salecard = '-' + res.data[i].num + ' ' + res.data[i].unit
+                this.hasdate = '';
+                this.salenum = parseInt(res.data[i].num);
+              }
+            }
+
+          }
+        }else{
+          this.saleflag = res.data.length === 0
+          this.salecard = this.saleflag ? '暂无可用现金券' : res.data.length + '张可用'
+          this.hasdate = this.saleflag ? 'nothing' : ''
+          if(!this.saleflag){
+            window.localStorage.setItem("salecard",res.data);
+          }else{
+            window.localStorage.setItem("salecard",'null');
+          }
+        }
+      })
       this.$post('/user/get/phone')
         .then(res => {
           this.invite = res.data.user[0]
@@ -254,7 +286,13 @@ export default {
     back () {
       this.$router.go(-1)
     },
+    salepage(type){
+      if(!type)
+        this.$router.push({
+          path: `/buyMill/sale_card`
+        })
 
+    },
     add () {
       this.number++
     },
@@ -536,6 +574,7 @@ export default {
           .buy_yhquan_label_text{
             font-size: 12px;
             color:#fff;
+
           }
           .buy_yhquan_label_icon{
             width: 14px;
@@ -562,9 +601,14 @@ export default {
           align-items: center;
         }
         .buy_yhquan_label_text{
-
           font-size:12px;
+          text-decoration: none;
           color:rgba(0,209,255,1);
+          margin-right: 10px;
+          &.nothing{
+            color:rgba(255,255,255,0.7);
+            margin-right: 0px;
+          }
         }
       }
       .buy_user1{

@@ -165,7 +165,7 @@ const router = new Router({
     },
     // 每日签到
     {
-      path: '/Signin/:unit',
+      path: '/Signin',
       name: 'Signin',
       component: () => import('../components/Signin/Signin.vue')
     },

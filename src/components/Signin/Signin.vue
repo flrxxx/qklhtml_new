@@ -15,12 +15,12 @@
         </div>
         <div class="signin_body">
           <div class="signin_box first">
-            <div class="signin_box_title">已连续签到<font>10</font>天</div>
-            <div class="signin_box_text">每日可获2积分，连续签到10、15天可获</div>
+            <div class="signin_box_title">已连续签到<font>{{day}}</font>天</div>
+            <div class="signin_box_text">每日可获{{dayjf}}积分，连续签到10、15天可获</div>
             <div class="signin_sizeline">
               <div class="signin_sizeline_bg"></div>
-              <div class="signin_sizeline_now">
-                <div class="signin_now_bg"><div class="line_icon active"><div class="line_text">10天</div></div></div>
+              <div class="signin_sizeline_now" v-if="daynum">
+                <div class="signin_now_bg" :style="{width: nowline +'%'}"><div class="line_icon active"><div class="line_text">{{day}}天</div></div></div>
               </div>
               <div class="signin_sizeline_last">
                 <div class="signin_sizeline_last_bg"><div class="line_icon"><div class="line_text">15天</div></div></div>
@@ -29,12 +29,12 @@
             <div class="qkl_btn">立即签到</div>
           </div>
           <div class="signin_box">
-            <div class="signin_box_title">已获得积分<font>42</font>分</div>
+            <div class="signin_box_title">已获得积分<font>{{jf}}</font>分</div>
             <div class="signin_box_text">每满42积分，将自动获赠USDT现金券一张</div>
             <div class="signin_sizeline">
             <div class="signin_sizeline_bg"></div>
             <div class="signin_sizeline_now">
-              <div class="signin_now_bg"><div class="line_icon active"><div class="line_text">39分</div></div></div>
+              <div class="signin_now_bg" ><div class="line_icon active"><div class="line_text">{{jf}}分</div></div></div>
             </div>
             <div class="signin_sizeline_last">
               <div class="signin_sizeline_last_bg"><div class="line_icon"><div class="line_text">42分</div></div></div>
@@ -44,16 +44,10 @@
           <div class="signin_other_box">
             <div class="signin_box_title">本月签到记录</div>
             <div class="signin_datelist">
-              <div class="signin_dateitem active">
-                <div class="signin_dateitembox">
-                  <div class="signin_dateitemtitle">1号</div>
+              <div class="signin_dateitem" v-for="item in daylist" v-bind:key="item.day">
+                <div class="signin_dateitembox" :class="item.active">
+                  <div class="signin_dateitemtitle">{{item.day}}号</div>
                   <div class="signin_dateitemicon "></div>
-                </div>
-              </div>
-              <div class="signin_dateitem">
-                <div class="signin_dateitembox">
-                  <div class="signin_dateitemtitle">1号</div>
-                  <div class="signin_dateitemicon"></div>
                 </div>
               </div>
             </div>
@@ -66,7 +60,45 @@
 <script>
 export default {
   name: 'signin',
+  data () {
+    return {
+      day: '-',
+      daynum:false,
+      nowline:0,
+      fullsign: 15,
+      dayjf: 2,
+      jf:0,
+      end:0,
+      daylist: [],
+    }
+  },
+  mounted () {
+    this.init()
+  },
   methods: {
+    init(){
+      this.$post('/user/signup/info')
+        .then( res => {
+          this.day = parseInt(res.data.day);
+          console.log(this.day)
+          this.daynum = this.day ? false : true;
+          console.log(this.daynum)
+          this.nowline = this.day != 0 ? (this.nowline / this.fullsign) * 100 : 0;
+          var dayslength =  res.data.days.length;
+          for(var i = 0; i < res.data.end; i++){
+            var temp = {};
+            temp.day = i + 1;
+            if(dayslength){
+              for(var j = 0; j < dayslength; j++){
+                temp.active = res.data.days[j] == i ? 'active' : '';
+              }
+            }else{
+              temp.active = '';
+            }
+            this.daylist.push(temp);
+          }
+        })
+    },
     back () {
       this.$router.go(-1)
     }
@@ -161,7 +193,7 @@ export default {
 .signin{
   .page_scoll{
     overflow-y: auto;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     top:2rem;
     left: 0;
     right: 0;
@@ -221,7 +253,6 @@ export default {
           left: 0;
           right: 0;
           .signin_now_bg{
-            width: 50%;
             height: 0.25rem;
             border-radius: 0.25rem;
             background:rgba(0,210,214,0.8);
@@ -305,6 +336,7 @@ export default {
           padding:0 0.25rem;
           box-sizing: border-box;
           float: left;
+          margin-bottom: 0.5rem;
           &.active{
             .signin_dateitembox{
               border:1px solid  rgba(0, 209, 255, 1);

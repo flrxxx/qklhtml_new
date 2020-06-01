@@ -4,53 +4,31 @@
         <div class="icon_left" @click="back()">
           <img src="../../assets/public_back.png" alt="icon"/>
         </div>
-        <div class="text_con">选择优惠券</div>
+        <div class="text_con">选择现金券</div>
         <div class="icon_right"></div>
       </div>
       <div class="card_list">
-        <div class="card_item">
-              <div class="card_body">
-                <div class="card_leftinfo">
-                  <div class="card_num">200</div>
-                  <div class="card_dw">USDT</div>
-                </div>
-                <div class="card_name">
-                  <div class="card_info">
-                    <div class="card_name_text">现金券</div>
-                    <div class="card_name_time">永久有效</div>
-                  </div>
-                  <div class="checkthis">选择</div>
-                </div>
+        <div v-if="cardlist.length">
+          <div class="card_item" v-for="item in cardlist" v-bind:key="item.cash_coupon_id">
+            <div class="card_body">
+              <div class="card_leftinfo">
+                <div class="card_num">{{item.num}}</div>
+                <div class="card_dw">{{item.unit}}</div>
               </div>
-          </div>
-        <div class="card_item">
-          <div class="card_body">
-            <div class="card_leftinfo">
-              <div class="card_num">200</div>
-              <div class="card_dw">USDT</div>
-            </div>
-            <div class="card_name">
-              <div class="card_info">
-                <div class="card_name_text">现金券</div>
-                <div class="card_name_time">永久有效</div>
+              <div class="card_name">
+                <div class="card_info">
+                  <div class="card_name_text">{{item.title}}</div>
+                  <div class="card_name_time">{{item.use_time}}</div>
+                </div>
+                <div class="checkthis" v-bind:data-id="item.cash_coupon_id" @click="selectitem(item.cash_coupon_id)">选择</div>
               </div>
-              <div class="checkthis">选择</div>
             </div>
           </div>
         </div>
-        <div class="card_item">
-          <div class="card_body">
-            <div class="card_leftinfo">
-              <div class="card_num">200</div>
-              <div class="card_dw">USDT</div>
-            </div>
-            <div class="card_name">
-              <div class="card_info">
-                <div class="card_name_text">现金券</div>
-                <div class="card_name_time">永久有效</div>
-              </div>
-              <div class="checkthis">选择</div>
-            </div>
+        <div v-else>
+          <div class="emptydate">
+            <div class="emptydate_icon"><img src="../../assets/public_nodata.png"></div>
+            <div class="emptydate_text">暂无可用现金券</div>
           </div>
         </div>
       </div>
@@ -62,13 +40,28 @@ export default {
   name: 'salecard',
   data () {
     return {
+      cardlist: [],
     }
   },
   mounted () {
+    if(window.localStorage.salecard && window.localStorage.salecard != 'null'){
+      this.cardlist = JSON.parse(window.localStorage.salecard);
+    }else{
+      this.$post('/coupon/get').then(res => {
+        this.cardlist = res.data
+      })
+    }
   },
   methods: {
     back () {
       this.$router.go(-1)
+    },
+    selectitem(id){
+      console.log(id);
+      this.$router.push({
+        name:'buyMill',
+        params: {id: id}
+      })
     }
   }
 }
@@ -232,5 +225,20 @@ export default {
       font-size: 14px;
       color:#fff;
       line-height: 1.2rem;
+  }
+  .emptydate{
+    padding-top: 3rem;
+    .emptydate_icon{
+      width: 3rem;
+      margin: 0 auto 1rem;
+      img{
+        width: 100%;
+      }
+    }
+    .emptydate_text{
+      font-size: 0.8rem;
+      color:#00D1FF;
+      text-align: center;
+    }
   }
 </style>
