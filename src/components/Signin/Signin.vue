@@ -16,36 +16,50 @@
         <div class="signin_body">
           <div class="signin_box first">
             <div class="signin_box_title">已连续签到<font>{{day}}</font>天</div>
-            <div class="signin_box_text">每日可获{{dayjf}}积分，连续签到10、15天可获</div>
+            <div class="signin_box_text">每日可获{{dayjf}}积分，连续签到{{daycenter}}、{{fullday}}可获额外积分</div>
             <div class="signin_sizeline">
               <div class="signin_sizeline_bg"></div>
-              <div class="signin_sizeline_now" v-if="daynum">
-                <div class="signin_now_bg" :style="{width: nowline +'%'}"><div class="line_icon active"><div class="line_text">{{day}}天</div></div></div>
+              <div class="signin_sizeline_now" v-if="day > 0 && day != daycenter && day != fullday && day < fullday">
+                <div class="signin_now_bg" :style="{width: nowline +'%'}"><div class="line_icon active"></div></div>
               </div>
-              <div class="signin_sizeline_last">
-                <div class="signin_sizeline_last_bg"><div class="line_icon"><div class="line_text">15天</div></div></div>
+              <div class="signin_sizeline_center active" v-if="day >= daycenter">
+                <div class="signin_sizeline_center_bg" :style="{width: centerline +'%'}"><div class="line_icon active"><div class="line_text">{{daycenter}}天</div></div></div>
+              </div>
+              <div class="signin_sizeline_center" v-else>
+                <div class="signin_sizeline_center_bg" :style="{width: centerline +'%'}"><div class="line_icon"><div class="line_text">{{daycenter}}天</div></div></div>
+              </div>
+
+              <div class="signin_sizeline_last active" v-if="day >= fullday">
+                <div class="signin_sizeline_last_bg"><div class="line_icon active"><div class="line_text">{{fullday}}天</div></div></div>
+              </div>
+              <div class="signin_sizeline_last " v-else>
+                <div class="signin_sizeline_last_bg"><div class="line_icon"><div class="line_text">{{fullday}}天</div></div></div>
               </div>
             </div>
-            <div class="qkl_btn">立即签到</div>
+            <div class="qkl_btn" v-if="today" >今日已签到</div>
+            <div class="qkl_btn" v-else @click="todaycheck">立即签到</div>
           </div>
           <div class="signin_box">
             <div class="signin_box_title">已获得积分<font>{{jf}}</font>分</div>
-            <div class="signin_box_text">每满42积分，将自动获赠USDT现金券一张</div>
+            <div class="signin_box_text">每满{{fullend}}积分，将自动获赠USDT现金券一张</div>
             <div class="signin_sizeline">
             <div class="signin_sizeline_bg"></div>
-            <div class="signin_sizeline_now">
-              <div class="signin_now_bg" ><div class="line_icon active"><div class="line_text">{{jf}}分</div></div></div>
+            <div class="signin_sizeline_now" v-if="jf > 0 && jf != fullend && jf < fullend">
+              <div class="signin_now_bg" :style="{width: jfline +'%'}"><div class="line_icon active"></div></div>
             </div>
-            <div class="signin_sizeline_last">
-              <div class="signin_sizeline_last_bg"><div class="line_icon"><div class="line_text">42分</div></div></div>
+            <div class="signin_sizeline_last active" v-if="jf >= fullend">
+              <div class="signin_sizeline_last_bg"><div class="line_icon active"><div class="line_text">{{fullend}}分</div></div></div>
             </div>
+              <div class="signin_sizeline_last" v-else>
+                <div class="signin_sizeline_last_bg"><div class="line_icon"><div class="line_text">{{fullend}}分</div></div></div>
+              </div>
           </div>
           </div>
           <div class="signin_other_box">
             <div class="signin_box_title">本月签到记录</div>
             <div class="signin_datelist">
-              <div class="signin_dateitem" v-for="item in daylist" v-bind:key="item.day">
-                <div class="signin_dateitembox" :class="item.active">
+              <div class="signin_dateitem" v-for="item in daylist" v-bind:key="item.day" :class="item.active">
+                <div class="signin_dateitembox" >
                   <div class="signin_dateitemtitle">{{item.day}}号</div>
                   <div class="signin_dateitemicon "></div>
                 </div>
@@ -54,50 +68,92 @@
           </div>
         </div>
       </div>
+      <diolog :diologinfo="diolog"></diolog>
     </div>
 </template>
 
 <script>
+  import diolog from '../parts/diolog.vue';
 export default {
   name: 'signin',
   data () {
     return {
       day: '-',
       daynum:false,
-      nowline:0,
-      fullsign: 15,
-      dayjf: 2,
+      nowline:'-',
+      centerline:'-',
+      daycenter:'-',
+      fullday: '-',
+      dayjf: 0,
+      jfline:0,
       jf:0,
       end:0,
+      fullend:0,
+      today:true,
       daylist: [],
+      diolog:{
+        show:false,
+        title:"提示",
+        text:"",
+        btn:[{
+          text:"确定",
+          callback:function(){}
+        }],
+      },
+      btnclick : true
     }
   },
+  components:{diolog},
   mounted () {
     this.init()
   },
   methods: {
     init(){
-      this.$post('/user/signup/info')
-        .then( res => {
-          this.day = parseInt(res.data.day);
-          console.log(this.day)
-          this.daynum = this.day ? false : true;
-          console.log(this.daynum)
-          this.nowline = this.day != 0 ? (this.nowline / this.fullsign) * 100 : 0;
-          var dayslength =  res.data.days.length;
-          for(var i = 0; i < res.data.end; i++){
-            var temp = {};
-            temp.day = i + 1;
-            if(dayslength){
-              for(var j = 0; j < dayslength; j++){
-                temp.active = res.data.days[j] == i ? 'active' : '';
+      var that = this;
+      this.$post('/user/signup/config').then( res => {
+        this.dayjf = parseInt(res.data[0].num)
+        this.daycenter = parseInt(res.data[1].days)
+        this.fullday = parseInt(res.data[2].days)
+        this.fullend = parseInt(res.data[3].num)
+        that.centerline = that.daycenter / that.fullday * 100
+        that.$post('/user/signup/info')
+          .then( res => {
+            that.day = parseInt(res.data.day)
+            that.jf = res.data.jf
+            that.today = res.data.today
+            that.nowline = that.day > 0 ? that.day < that.fullday ? (that.day / that.fullday) * 100 : 100 : 0
+            that.jfline = that.jf > 0 ? that.jf < that.fullend ? (that.jf / that.fullend) * 100  : 100 : 0
+            var dayslength =  res.data.days.length;
+            for(var i = 0; i < res.data.end; i++){
+              var temp = {};
+              temp.day = i + 1;
+              if(dayslength){
+                for(var j = 0; j < dayslength; j++){
+                  temp.active = parseInt(res.data.days[j]) == i+1 ? 'active' : '';
+                }
+              }else{
+                temp.active = '';
               }
-            }else{
-              temp.active = '';
+              that.daylist.push(temp);
             }
-            this.daylist.push(temp);
-          }
-        })
+          })
+      })
+
+    },
+    todaycheck(){
+      if(this.btnclick){
+        this.btnclick = false;
+        this.$post('/user/signup/in')
+          .then( res => {
+              this.btnclick = true
+              if(res.msg){
+                this.diolog.text = res.msg
+                this.diolog.show = true
+                this.diolog.btn[0].callback = () => this.diolog.show = false
+              }
+            }
+          )
+      }
     },
     back () {
       this.$router.go(-1)
@@ -252,6 +308,7 @@ export default {
           top:0;
           left: 0;
           right: 0;
+          z-index: 11;
           .signin_now_bg{
             height: 0.25rem;
             border-radius: 0.25rem;
@@ -265,6 +322,32 @@ export default {
             position: relative;
           }
         }
+        .signin_sizeline_center{
+          position: absolute;
+          top:0;
+          left: 0;
+          right: 0;
+          z-index: 10;
+          .signin_sizeline_center_bg{
+            width: 100%;
+            height: 0.25rem;
+            position: relative;
+          }
+          &.active{
+            .signin_sizeline_center_bg {
+              height: 0.25rem;
+              border-radius: 0.25rem;
+              background: rgba(0, 210, 214, 0.8);
+              background: -moz-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(0, 243, 255, 1)), color-stop(100%, rgba(0, 160, 255, 1)));
+              background: -webkit-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: -o-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: -ms-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              position: relative;
+            }
+          }
+        }
         .signin_sizeline_last{
           position: absolute;
           top:0;
@@ -274,6 +357,20 @@ export default {
             width: 100%;
             height: 0.25rem;
             position: relative;
+          }
+          &.active{
+            .signin_sizeline_last_bg {
+              height: 0.25rem;
+              border-radius: 0.25rem;
+              background: rgba(0, 210, 214, 0.8);
+              background: -moz-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(0, 243, 255, 1)), color-stop(100%, rgba(0, 160, 255, 1)));
+              background: -webkit-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: -o-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: -ms-linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              background: linear-gradient(135deg, rgba(0, 243, 255, 1) 0%, rgba(0, 160, 255, 1) 100%);
+              position: relative;
+            }
           }
         }
         .line_icon{
