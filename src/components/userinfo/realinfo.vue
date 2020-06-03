@@ -12,7 +12,7 @@
         <div class="leuoj">基本信息</div>
         <div class="pasfm">
           <div class="pasfm1">证件类型</div>
-          <input type="text" readonly  class="ipt" v-model="cardtype">
+          <input type="text" readonly  class="ipt" v-model="cardtype" @click="itemselect()">
           <div class="rightarrow"><img src="../../assets/public_down.png"> </div>
         </div>
         <div class="pasfm">
@@ -28,7 +28,7 @@
             <div class="pasfm1">&nbsp;&nbsp;验证码&nbsp;</div>
             <input type="number" placeholder="请输入验证码" class="ipt" >
           </div>
-          <div class="sub_code" @click="code()" v-if="yhsi">获取验证码</div>
+          <div class="sub_code" @click="getcodenow()" v-if="yhsi">获取验证码</div>
           <div v-if="!yhsi" class="sub_code">{{ getCode1 }} s后获取</div>
         </div>
       </div>
@@ -66,6 +66,19 @@
         </label>
       </div>
     </div>
+    <div class="footbtn">
+      <div class="btn">提交审核</div>
+    </div>
+    <div class="selectmain" v-if="selectshow">
+      <div class="selectbox">
+        <div class="selectboxtitle">请选择证件类型</div>
+        <div class="selectboxbody">
+          <div class="selectboxbody_item" v-for="item in typelist" :key="item.id" @click="selectitem(item)">{{item.name}}</div>
+        </div>
+      </div>
+      <div class="select_bg" @click="closeselect"></div>
+    </div>
+
   </div>
 </template>
 
@@ -74,13 +87,108 @@
       name: "realinfo",
       data(){
         return {
-          yhsi:true,
-          cardtype:"身份证"
+          getCode: '获取验证码',
+          yhsi: true,
+          codesend: true,
+          getCode1: '60',
+          cardtype:"身份证",
+          cardtypeid:"",
+          selectshow:false,
+          cardpic1:'',
+          cardpic2:'',
+          cardpic3:'',
+          phone:'',
+          typelist:[{
+            id:1,
+            name:'身份证'
+          },{
+            id:2,
+            name:'驾驶证'
+          }]
         }
       },
+      mounted () {
+        this.init()
+      },
       methods:{
-        code(){
-
+        init () {
+          var that = this
+          this.$post('/user/get/phone')
+            .then(res => {
+              if (res.status === 10001) {
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                })
+                this.$router.push({
+                  path: `/`
+                })
+              }
+              this.phone = res.data.user[0].user.phone
+            })
+        },
+        back () {
+          this.$router.back(-1)
+        },
+        getcodenow () {
+          if(this.codesend){
+            this.codesend = false;
+            this.$post('/user/sendCode', {phone: this.phone})
+              .then(res => {
+                if (res.status === 10001) {
+                  this.$message({
+                    message: res.msg,
+                    type: 'success'
+                  })
+                  this.$router.push({
+                    path: `/`
+                  })
+                }
+                if(res.status == 0){
+                  this.$message({
+                    message: res.msg,
+                    type: 'success'
+                  })
+                  this.yhsi = false
+                  if (res.status === 0) {
+                    let that = this
+                    that.telCode = 60
+                    var TIME_COUNT = setInterval(() => {
+                      if (that.telCode > 0) {
+                        that.yhsi = false
+                        that.telCode--
+                        that.getCode = that.telCode
+                        that.getCode1 = that.telCode
+                      } else {
+                        that.yhsi = true
+                        this.codesend = true;
+                        clearInterval(TIME_COUNT)
+                      }
+                    }, 1000)
+                  }
+                }else{
+                  this.diolog.text = res.msg;
+                  this.diolog.show = true;
+                  this.diolog.btn[0].callback = () => this.diolog.show = false
+                  this.yhsi = true
+                  this.codesend = true;
+                }
+              })
+              .catch(err => {
+                this.yhsi = true
+              })
+          }
+        },
+        selectitem(item){
+          this.cardtype = item.name
+          this.cardtypeid = item.id
+          this.selectshow = false
+        },
+        itemselect(){
+          this.selectshow = true
+        },
+        closeselect(){
+          this.selectshow = false
         }
       }
     }
@@ -172,13 +280,38 @@
     }
   }
   .outerdom{
+    .footbtn{
+      position: absolute;
+      bottom:0;
+      height: 2.5rem;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      padding: 0.25rem 0.75rem 0;
+      box-sizing: border-box;
+      .btn{
+        height: 2rem;
+        line-height: 2rem;
+        text-align: center;
+        background:rgba(0,209,255,0.8);
+        background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+        background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        font-size: 0.7rem;
+        color:#fff;
+        border-radius: 0.25rem;
+      }
+    }
     .page_scoll{
       overflow-y: auto;
-      padding: 0.75rem 0.75rem;
+      padding: 0.75rem 0.75rem 0rem;
       top:2.2rem;
       left: 0;
       right: 0;
-      bottom:0;
+      bottom:2.5rem;
       z-index: 1;
       position: absolute;
       .back_cv{
@@ -265,7 +398,7 @@
         }
         .zjpicbox{
           display: block;
-          border:1px solid rgba(0, 210, 214, 1);
+          border:1px solid rgba(0, 209, 255, 1);
           width: 8rem;
           margin: 0 auto;
           border-radius: 0.25rem;
@@ -274,7 +407,7 @@
           margin-bottom: 1rem;
           .zjpictext{
             padding: 1rem 0;
-            background-color:rgba(0, 210, 214, 1) ;
+            background-color:rgba(0, 209, 255, 1) ;
             color:#fff;
             text-align: center;
             width: 3.5rem;
@@ -307,6 +440,78 @@
         }
       }
     }
+    .selectmain{
+      position: fixed;
+      top:0;
+      left: 0;
+      right: 0;
+      bottom:0;
+      z-index: 100;
+      .selectbox{
+        position: absolute;
+        width: 80%;
+        left: 10%;
+        top:20%;
+        background-color: #1A1A1A;
+        z-index: 2;
+        padding:0.5rem 0.75rem;
+        box-sizing: border-box;
+        .selectboxtitle{
+          font-size: 0.7rem;
+          color:rgba(0, 209, 255, 1);
+          text-align: left;
+          padding-left: 0.5rem;
+          position: relative;
+          height: 32px;
+          line-height: 32px;
+          margin-bottom: 0.5rem;
+
+          &:before{
+            width: 3px;
+            background-color:rgba(0, 209, 255, 1) ;
+            height: 14px;
+            content:"";
+            position: absolute;
+            left: 0;
+            top:50%;
+            margin-top: -7px;
+          }
+        }
+        .selectboxbody{
+          border-top:1px solid rgba(174,174,174,0.2);
+          max-height: 10rem;
+          overflow-y:auto;
+          .selectboxbody_item{
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+            color:#fff;
+            font-size: 0.7rem;
+            border-bottom:1px solid rgba(174,174,174,0.2)
+          }
+        }
+      }
+      .select_bg{
+        position: absolute;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom:0;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 1;
+      }
+    }
   }
 
 </style>
+<!--<div class="selectmain">-->
+  <!--<div class="selectbox">-->
+    <!--<div class="selectboxtitle">请选择证件类型</div>-->
+    <!--<div class="selectboxbody">-->
+      <!--<div class="selectboxbody_item">身份证</div>-->
+      <!--<div class="selectboxbody_item">军官证</div>-->
+      <!--<div class="selectboxbody_item">主席证</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="select_bg"></div>-->
+<!--</div>-->

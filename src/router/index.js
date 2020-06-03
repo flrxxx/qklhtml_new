@@ -151,6 +151,17 @@ const router = new Router({
       name: 'myAssets',
       component: () => import('../components/myAssets/myAssets.vue')
     },
+    //空页面
+    {
+      path: '/404',
+      name: 'empty',
+      component: () => import('../components/parts/empty.vue')
+    },
+    {
+      path: '/405',
+      name: 'newempty',
+      component: () => import('../components/parts/newempty.vue')
+    },
     // 充值
     {
       path: '/charge/:unit',

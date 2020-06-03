@@ -10,32 +10,54 @@
       </div>
     </div>
     <div class="content">
-      <div class="dizi" @click="fucio(1)">
-        <div class="dizi_detail">
-          <div>132</div>
-          <div>890</div>
-        </div>
-        <div class="more" @click.stop="degtre(1)">
-          <img src="../../assets/address_delete.png"/>
+      <div v-if="addresslist.length">
+        <div class="dizi" v-for="item in addresslist"  :key="item.id" @click="setaddress(item.id,item.remark,item.address)">
+          <div class="dizi_detail">
+            <div>{{item.remark}}</div>
+            <div>{{item.address}}</div>
+          </div>
+          <div class="more" @click.stop="deladdress(item.id)">
+            <img src="../../assets/address_delete.png"/>
+          </div>
         </div>
       </div>
+      <div v-else>
+        <div class="emptydate">
+          <div class="emptydate_icon"><img src="../../assets/public_nodata.png"></div>
+          <div class="emptydate_text">暂无地址，点击<font @click="addWithdrawal()">添加地址</font></div>
+        </div>
+      </div>
+
     </div>
+    <diolog :diologinfo="diolog"></diolog>
   </div>
 </template>
 
 <script>
 // import axios from 'axios'
+import diolog from '../parts/diolog.vue';
 export default {
   name: 'withdrawalAddress',
+  components:{diolog},
   data () {
     return {
-      unit: ''
+      unit: '',
+      addresslist:[],
+      diolog: {
+        show: false,
+        title: "提示",
+        text: "",
+        btn: [{
+          text: "确定",
+          callback: function () {}
+        }],
+      },
     }
   },
   mounted () {
     this.unit = this.$route.params.unit
     this.init()
-    console.log(this.unit)
+
   },
   methods: {
     back () {
@@ -46,24 +68,81 @@ export default {
         path: `/addWithdrawal/${this.unit}`
       })
     },
-    fucio (e) {
+    setaddress (id,remark,address) {
+      var temp = {id:id,remark:remark,address:address};
+      window.localStorage.setItem("addressinfo",JSON.stringify(temp));
       this.$router.push({
-        name: `withdrawal`,
-        params: {
-          id: e
-        }
+        path: `/withdrawal/${this.unit}`
       })
     },
-    degtre () {
+    deladdress (id) {
       // 删除
+      this.diolog.text = '确定要删除该地址吗？'
+      this.diolog.show = true
+      this.diolog.btn = [{
+        text: "取消",
+        callback: () => {
+          this.diolog.show = false
+        }
+      },{
+        text:"确定",
+        callback:() => {
+          this.diolog.show = false
+          this.$post('/coin/tibiAddress/del',{unit:this.unit,id:id})
+            .then(res =>{
+              if (res.status === 10001) {
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                })
+                this.$router.push({
+                  path: `/`
+                })
+              }
+              if(res.status == 0){
+                this.$message({
+                  message: res.msg,
+                  type: 'success'
+                })
+                this.init();
+              }else{
+                this.$message({
+                  message: res.msg,
+                  type: 'error'
+                })
+              }
+            })
+        }
+      }];
     },
     init () {
-      this.cn_new = 'erwqerwer'
+      this.$post('/coin/tibiAddress/sel',{unit:this.unit})
+        .then( res =>{
+          if (res.status === 10001) {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
+            this.$router.push({
+              path: `/`
+            })
+          }
+          this.addresslist = res.data;
+        })
     },
     code () {
       this.yhsi = false
       this.$post('/user/sendCode', {phone: this.phone})
         .then(res => {
+          if (res.status === 10001) {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
+            this.$router.push({
+              path: `/`
+            })
+          }
           this.$message({
             message: res.msg,
             type: 'success'
@@ -150,7 +229,7 @@ export default {
     width: 100%;
     padding: 0 10px;
     box-sizing: border-box;
-    margin-top: 10px;
+    margin-top: 15px;
     .dizi{
       width: 100%;
       min-height:60px;
@@ -161,7 +240,7 @@ export default {
       align-items: center;
       padding: 0 15px;
       box-sizing: border-box;
-      margin-bottom: 5px;
+      margin-bottom:15px;
       .dizi_detail{
         flex: 1;
         text-align: left;
@@ -187,6 +266,24 @@ export default {
           width: 100%;
           display: block;
         }
+      }
+    }
+  }
+  .emptydate{
+    padding-top: 3rem;
+    .emptydate_icon{
+      width: 3rem;
+      margin: 0 auto 1rem;
+      img{
+        width: 100%;
+      }
+    }
+    .emptydate_text{
+      font-size: 0.8rem;
+      color:#fff;
+      text-align: center;
+      font{
+        color:#00D1FF;
       }
     }
   }

@@ -13,14 +13,14 @@
         <div class="leuoj">地址信息</div>
         <div class="pasfm">
           <div class="pasfm1">地址标题</div>
-          <input type="number" placeholder="如：张三的地址" class="ipt">
+          <input type="text" placeholder="如：张三的地址" class="ipt" v-model="remark">
         </div>
         <div class="pasfm">
           <div class="pasfm1">提现地址</div>
-          <input type="number" placeholder="请输入提现地址" class="ipt">
+          <input type="text" placeholder="请输入提现地址" class="ipt" v-model="address">
         </div>
       </div>
-      <div class="submit">添加提现地址</div>
+      <div class="submit" @click="submit()">添加提现地址</div>
     </div>
   </div>
 </template>
@@ -30,13 +30,64 @@ export default {
   name: 'addWithdrawal',
   data () {
     return {
+      remark:'',
+      address:'',
+      unit:'',
+      submitflag:true
     }
   },
   mounted () {
+    this.unit = this.$route.params.unit
   },
   methods: {
     back () {
       this.$router.go(-1)
+    },
+    submit(){
+      if(this.remark == ''){
+        this.$message({
+          message: '请完善地址标题',
+          type: 'error'
+        })
+        return false
+      }
+      if(this.address == ''){
+        this.$message({
+          message: '请完善提现地址',
+          type: 'error'
+        })
+        return false
+      }
+      if(this.submitflag){
+        this.submitflag = false;
+        this.$post('/coin/tibiAddress/add',{unit:this.unit,remark: this.remark,address: this.address})
+          .then(res => {
+            if (res.status === 10001) {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.$router.push({
+                path: `/`
+              })
+            }
+            this.submitflag = true;
+            if(res.status == 0){
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.$router.push({
+                path: `/withdrawalAddress/${this.unit}`
+              })
+            }else{
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+            }
+          })
+      }
     }
   }
 }
