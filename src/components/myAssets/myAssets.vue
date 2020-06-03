@@ -82,6 +82,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'myAssets',
   data () {
@@ -152,13 +153,13 @@ export default {
       this.chargePay = false
     },
     withdrawal (e) {
-      // this.$router.push({
-      //   path: `/withdrawal/${e}`
-      // })
-      this.$message({
-        message: '暂未开放',
-        type: 'success'
+      this.$router.push({
+        path: `/withdrawal/${e}`
       })
+      // this.$message({
+      //   message: '暂未开放',
+      //   type: 'success'
+      // })
     },
     transfer (e) {
       this.$router.push({

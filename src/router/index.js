@@ -169,6 +169,12 @@ const router = new Router({
       name: 'Signin',
       component: () => import('../components/Signin/Signin.vue')
     },
+    // 实名认证
+    {
+      path: '/realinfo',
+      name: 'realinfo',
+      component: () => import('../components/userinfo/realinfo.vue')
+    },
     // 提现
     {
       path: '/withdrawal/:unit',

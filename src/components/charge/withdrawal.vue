@@ -14,8 +14,8 @@
         <div class="leuoj" style="margin-bottom: 0;">提现地址</div>
         <div class="dizi" @click="address()">
           <div class="dizi_detail">
-            <div>{{ dfg }}</div>
-            <div>qwreqrrq</div>
+            <div>{{ addresstitle }}</div>
+            <div>{{addressinfo}}</div>
           </div>
           <div class="more">
             <img src="../../assets/address_right.png"/>
@@ -26,7 +26,7 @@
         <div class="leuoj">提现信息</div>
         <div class="pasfm">
           <div class="pasfm1">提现数量</div>
-          <input type="number" placeholder="请输入提现数量" class="ipt" v-model="number">
+          <input type="number" placeholder="请输入提现数量" class="ipt" v-model="number" >
         </div>
         <div class="cflp">
           <div class="pasfm" style="flex: 1;margin-bottom: 0">
@@ -39,41 +39,57 @@
       </div>
       <div class="title">
         <div class="leuoj">提现须知</div>
-        1.最小提现数量为20 USDT。<br/>
-        2.提现每笔手续费为提现数额的1%<br/>
-        3.为保障提现顺利，请您认真填写并核对提现地址。<br/>
-        4.提交提现订单后，系统将自动审核，审核无误后，提取的USDT将自动存入您填写的提现地址中。
+        1.最小提现数量为{{forward_min}} {{unit}}，最大提币数量{{once_max}} {{unit}}。<br/>
+        2.提现每笔手续费为提现数额的{{forward_fee}}，每天最多提币次数{{daily_times_max}}次<br/>
+        4.为保障提现顺利，请您认真填写并核对提现地址。<br/>
+        5.提交提现订单后，系统将自动审核，审核无误后，提取的{{unit}}将自动存入您填写的提现地址中。
       </div>
     </div>
     <div class="btn" @click="submit()">确定提现</div>
+    <diolog :diologinfo="diolog"></diolog>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+  import diolog from '../parts/diolog.vue';
 export default {
   name: 'withdrawal',
+  components:{diolog},
   data () {
     return {
-      unit: '',
       getCode: '获取验证码',
       yhsi: true,
+      codesend: true,
       getCode1: '60',
-      number: '',
+      number: '123',
       hio: '',
       phone: '',
       cuty_id: '',
-      dfg: 'qwer'
+      addresstitle: '暂无地址',
+      addressinfo: '点击前往添加一个地址',
+      forward_min: '-',
+      unit: '',
+      once_max: '-',
+      forward_fee: '',
+      daily_times_max: '',
+      diolog: {
+        show: false,
+        title: "提示",
+        text: "",
+        btn: [{
+          text: "确定",
+          callback: function () {}
+        }],
+      }
     }
   },
   mounted () {
     this.cuty_id = this.$route.params.id // 地址id
     if (this.cuty_id === 1) {
-      this.dfg = '改变了'
+      this.dfg = ''
     }
     this.unit = this.$route.params.unit
     this.init()
-    console.log(this.unit)
   },
   methods: {
     back () {
@@ -90,7 +106,14 @@ export default {
       })
     },
     init () {
-      this.cn_new = 'erwqerwer'
+      var that = this
+      this.$post('/coin/tibi/info',{unit:that.unit})
+        .then(res => {
+          that.forward_min = res.data[0].forward_min
+          that.once_max = res.data[0].once_max
+          that.forward_fee = res.data[0].forward_fee
+          that.daily_times_max = res.data[0].daily_times_max
+        })
       this.$post('/user/get/phone')
         .then(res => {
           this.phone = res.data.user[0].user.phone
@@ -106,33 +129,45 @@ export default {
         })
     },
     code () {
-      this.yhsi = false
-      this.$post('/user/sendCode', {phone: this.phone})
-        .then(res => {
-          this.$message({
-            message: res.msg,
-            type: 'success'
-          })
-          if (res.status === 0) {
-            let that = this
-            that.telCode = 60
-            var TIME_COUNT = setInterval(() => {
-              if (that.telCode > 0) {
-                that.yhsi = false
-                that.telCode--
-                that.getCode = that.telCode
-                that.getCode1 = that.telCode
-              } else {
-                that.yhsi = true
-                clearInterval(TIME_COUNT)
+      if(this.codesend){
+        this.codesend = false;
+        this.$post('/user/sendCode', {phone: this.phone})
+          .then(res => {
+            if(res.status == 0){
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.yhsi = false
+              if (res.status === 0) {
+                let that = this
+                that.telCode = 60
+                var TIME_COUNT = setInterval(() => {
+                  if (that.telCode > 0) {
+                    that.yhsi = false
+                    that.telCode--
+                    that.getCode = that.telCode
+                    that.getCode1 = that.telCode
+                  } else {
+                    that.yhsi = true
+                    this.codesend = true;
+                    clearInterval(TIME_COUNT)
+                  }
+                }, 1000)
               }
-            }, 1000)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          this.yhsi = true
-        })
+            }else{
+              this.diolog.text = res.msg;
+              this.diolog.show = true;
+              this.diolog.btn[0].callback = () => this.diolog.show = false
+              this.yhsi = true
+              this.codesend = true;
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            this.yhsi = true
+          })
+      }
     },
     submit () {
       this.$message({
@@ -301,7 +336,7 @@ export default {
       font-size:12px;
       font-weight:400;
       color:rgba(255,255,255, 1);
-      line-height:17px;
+      line-height:24px;
       margin-bottom: 10px;
       padding: 8px 15px;
       box-sizing: border-box;
