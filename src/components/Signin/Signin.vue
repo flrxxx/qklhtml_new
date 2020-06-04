@@ -129,7 +129,11 @@ export default {
               temp.day = i + 1;
               if(dayslength){
                 for(var j = 0; j < dayslength; j++){
-                  temp.active = parseInt(res.data.days[j]) == i+1 ? 'active' : '';
+                  if(parseInt(res.data.days[j]) == i+1){
+                    temp.active ='active';
+                    break;
+                  }
+
                 }
               }else{
                 temp.active = '';
@@ -149,7 +153,10 @@ export default {
               if(res.msg){
                 this.diolog.text = res.msg
                 this.diolog.show = true
-                this.diolog.btn[0].callback = () => this.diolog.show = false
+                this.diolog.btn[0].callback = () =>{
+                  this.diolog.show = false
+                  this.init();
+                }
               }
             }
           )
@@ -327,7 +334,7 @@ export default {
           top:0;
           left: 0;
           right: 0;
-          z-index: 10;
+          z-index: 11;
           .signin_sizeline_center_bg{
             width: 100%;
             height: 0.25rem;

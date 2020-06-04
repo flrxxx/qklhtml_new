@@ -67,10 +67,7 @@
     <div class="tab_list" v-if="chargePay" @click.self="close()">
       <div class="onjk">
         <div class="onjk_top">
-          <div class="onjk_top1">
-            充值方式
-            <p>选择您的充值方式</p>
-          </div>
+          <div class="diologheader">充值方式<font>选择您的充值方式</font></div>
           <div class="onjk_top1 fot" v-for="(item, index) in changeList" :key="index" @click="charge(item.id,'USDT')">
             {{ item.title }}充值
           </div>
@@ -174,15 +171,19 @@ export default {
 <style scoped lang="scss">
 .myAssets{
   width: 100%;
-  min-height: 100vh;
-  min-height: 100vh;
-  background-color: #01101D;
+  position: absolute;
+  top:0px;
+  left: 0px;
+  right: 0px;
+  bottom:0px;
+  overflow-y: auto;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -216,7 +217,7 @@ export default {
     margin-top: 10px;
     .gon{
       width: 100%;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       padding: 15px 17px;
       display: flex;
       justify-content: space-between;
@@ -235,14 +236,14 @@ export default {
         .left_text{
           font-size:24px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:rgba(255,255,255, 1);
           margin-left: 8px;
         }
       }
       .gon_num{
         font-size:21px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:rgba(255,255,255, 1);
       }
     }
     .list{
@@ -253,7 +254,7 @@ export default {
       margin-bottom: 10px;
       .list_item{
         width: 30%;
-        background:rgba(3,26,46,1);
+        background:rgba(26,26,26,1);
         border-radius: 8px 30px 8px 8px;
         padding: 29px 0;
         margin-bottom: 15px;
@@ -269,7 +270,7 @@ export default {
           height:17px;
           font-size:12px;
           font-weight:400;
-          color:rgba(0,210,214,0.8);
+          color:rgba(255,255,255, 1);
           line-height:17px;
           margin-top: 8px;
         }
@@ -286,7 +287,7 @@ export default {
     z-index: 999;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     // padding-bottom: 50px;
     // box-sizing: border-box;
     .onjk{
@@ -295,37 +296,52 @@ export default {
       box-sizing: border-box;
       .onjk_top{
         width:100%;
-        background:rgba(3,26,46,1);
+        background:rgba(26,26,26,1);
         border-radius:10px;
-        padding: 8px 0;
+        padding: 10px 15px 5px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
         .onjk_top1{
           width: 100%;
-          padding: 5px 0;
+          height: 44px;
+          line-height: 44px;
+          font-size:14px;
+          font-weight:500;
+          color:rgba(255,255,255, 1);
+          text-align: center;
+          & + .onjk_top1{
+            border-top:rgba(255,255,255,0.2) 1px solid;
+          }
+        }
+        .diologheader{
+          text-align: left;
+          width: 100%;
+          padding: 5px 0 10px;
           font-size:16px;
           font-weight:500;
-          color:rgba(0,210,214,1);
-          p{
-            height:17px;
+          color:rgba(0, 209, 255, 1);
+          border-bottom:1px solid rgba(255,255,255,0.1);
+          font{
+            margin-left: 5px;
             font-size:12px;
             font-weight:400;
-            color:rgba(0,210,214,1);
-            line-height:17px;
-            margin: 3px 0;
+            color:rgba(255,255,255, 1);
           }
         }
         .fot{
-          font-size: 18px;
+          font-size: 14px;
         }
       }
       .clos{
         width:100%;
-        height:37px;
-        background:rgba(3,26,46,1);
+        height:44px;
+        line-height: 44px;
+        background:rgba(26,26,26,1);
         border-radius:10px;
         font-size:16px;
         font-weight:400;
-        color:rgba(0,210,214,1);
-        line-height:37px;
+        color:rgba(0, 209, 255, 1);
+        margin-bottom: 20px;
         // margin: 5px 0;
       }
     }

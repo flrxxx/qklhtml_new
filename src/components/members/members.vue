@@ -23,13 +23,13 @@
       </div> -->
       <!-- <div class="my_team">我的团队成员</div> -->
       <div class="list" v-if="list.length > 0" :style="{'justify-content' : (list.length < 3 ? 'end' : '')}">
-        <div class="list_item" v-for="(item,index) in list" :key="index" :style="{'margin-right' : (list.length < 3 ? 'calc(8% / 3)' : '')}">
-          <div class="list_img">
-            <img src="../../assets/ming_user.png"/>
-          </div>
-          <div class="list_text">{{ item.UID }}</div>
-          <div class="list_text1" v-if="item.grade">{{ item.grade_id == 0 ? '矿友' : item.grade.title }}</div>
-          <div class="list_text1" v-if="!item.grade">矿友</div>
+        <div class="list_item" v-for="(item,index) in list" :key="item.user_id" :data-id="item.user_id" :style="{'margin-right' : (list.length < 3 ? 'calc(8% / 3)' : '')}" @click="checkitem(item.user_id)">
+            <div class="list_img">
+              <img src="../../assets/ming_user.png"/>
+            </div>
+            <div class="list_text">{{ item.user.name }}</div>
+            <div class="list_text1" v-if="item.grade">{{ item.grade_id == 0 ? '矿友' : item.grade.title }}</div>
+            <div class="list_text1" v-if="!item.grade">矿友</div>
         </div>
       </div>
       <div class="no_data" v-if="list.length == 0">
@@ -39,17 +39,62 @@
           <div class="data_text">暂无数据</div>
         </div>
     </div>
+    <div class="diologbox" v-show="diologshow">
+      <div class="diolog_content">
+        <div class="back_cv">
+          <div class="leuoj">成员详细信息</div>
+          <div class="itemline">
+            <div class="itemlabel">姓名</div>
+            <div class="itemvalue">{{user.name}}</div>
+          </div>
+          <div class="itemline">
+            <div class="itemlabel">UID</div>
+            <div class="itemvalue">{{user.UID}}</div>
+          </div>
+          <div class="itemline">
+            <div class="itemlabel">电话</div>
+            <div class="itemvalue">{{user.phone}}</div>
+          </div>
+          <div class="itemline">
+            <div class="itemlabel">购买业绩</div>
+            <div class="itemvalue">{{user.own_buy}}</div>
+          </div>
+          <div class="itemline">
+            <div class="itemlabel">团队业绩</div>
+            <div class="itemvalue">{{user.kid_buy}}</div>
+          </div>
+          <div class="itemline">
+            <div class="itemlabel">总T数</div>
+            <div class="itemvalue">{{user.userNum}}</div>
+          </div>
+        </div>
+        <div class="closebtn" @click="closediolog">关闭</div>
+      </div>
+      <div class="diologbox_bg"></div>
+    </div>
+    <loading ref="loading"></loading>
   </div>
 </template>
 
 <script>
+  import loading from '../parts/loading.vue';
 export default {
   name: 'members',
+  components:{loading},
   data () {
     return {
       health: '60%',
       list: [],
-      invite: {}
+      invite: {},
+      user:{
+        name:'',
+        UID:'',
+        phone:'',
+        own_buy:'',
+        kid_buy:'',
+        userNum:''
+      },
+      diologshow:false
     }
   },
   mounted () {
@@ -88,6 +133,55 @@ export default {
       //       this.invite = res.data[0]
       //     }
       //   })
+    },
+    checkitem(id){
+      console.log(id)
+      this.$refs.loading.loadingshow();
+      if(id){
+        this.$post('/user/invite/info',{id:id})
+          .then(res =>{
+            this.$refs.loading.loadinghide();
+            if (res.status === 10001) {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.$router.push({
+                path: `/`
+              })
+            }
+            if(res.status == 0){
+              try{
+                this.user.name = res.data.user[0].user.name;
+                this.user.phone = res.data.user[0].user.phone;
+                this.user.UID = res.data.user[0].UID;
+                this.user.own_buy = res.data.user[0].own_buy;
+                this.user.kid_buy = res.data.user[0].kid_buy;
+                this.user.userNum = res.data.user[0].userNum;
+                this.diologshow = true
+              }catch(err){
+                this.$message({
+                  message:'用户信息异常',
+                  type: 'error'
+                })
+              }
+
+            }else{
+              this.$message({
+                message:res.msg,
+                type: 'error'
+              })
+            }
+          })
+      }else{
+        this.$message({
+          message: '未找到用户相关信息',
+          type: 'error'
+        })
+      }
+    },
+    closediolog(){
+      this.diologshow = false;
     }
   }
 }
@@ -98,7 +192,7 @@ export default {
 .members{
   width: 100%;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
@@ -137,7 +231,7 @@ export default {
     box-sizing: border-box;
     .hedns{
       width:100%;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       border-radius:4px;
       padding: 10px 20px;
       box-sizing: border-box;
@@ -146,10 +240,10 @@ export default {
         height:20px;
         font-size:14px;
         font-weight:500;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
         line-height:20px;
         padding-left: 8px;
-        border-left: 3px solid rgba(0,210,214,0.8);
+        border-left: 3px solid rgba(0, 209, 255, 1);
         text-align: left;
         box-sizing: border-box;
       }
@@ -174,7 +268,7 @@ export default {
             height:17px;
             font-size:12px;
             font-weight:500;
-            color:rgba(0,210,214,1);
+            color:rgba(0, 209, 255, 1);
             line-height:17px;
             text-align: left;
           }
@@ -203,7 +297,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:500;
-      color:rgba(0,210,214,1);
+      color:rgba(0, 209, 255, 1);
       line-height:22px;
       text-align: center;
     }
@@ -214,7 +308,7 @@ export default {
       flex-flow: wrap;
       .list_item{
         width: 23%;
-        background:rgba(3,26,46,1);
+        background:rgba(26,26,26,1);
         border-radius: 8px 30px 8px 8px;
         padding: 12px 0;
         margin-bottom: 15px;
@@ -230,7 +324,7 @@ export default {
           height:17px;
           font-size:12px;
           font-weight:400;
-          color:rgba(0,210,214,0.8);
+          color:rgba(0, 209, 255, 1);
           line-height:17px;
           margin-top: 8px;
         }
@@ -261,9 +355,136 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:400;
-      color:rgba(0,210,214,1);
+      color:rgba(0, 209, 255, 1);
       line-height:22px;
       margin-top: 5px;
+    }
+  }
+  .diologbox{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    .diologbox_bg{
+      position: absolute;
+      top:0;
+      right: 0;
+      left: 0;
+      bottom:0;
+      z-index: 1;
+      background-color:rgba(0,0,0,0.8)
+    }
+    .diolog_content{
+      position: absolute;
+      top:20%;
+      width: 80%;
+      left: 10%;
+      z-index: 10;
+      background-color:rgba(26,26,26,1);
+      .back_cv{
+        width:100%;
+        background:rgba(26, 26, 26, 1);
+        border-radius:4px;
+        padding: 10px 15px;
+        box-sizing: border-box;
+        .cflp{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .sub_code{
+            height:22px;
+            font-size:16px;
+            font-weight:500;
+            color:rgba(0, 209, 255, 1);
+            line-height:22px;
+            padding: 0 10px;
+            box-sizing: border-box;
+          }
+        }
+        .leuoj{
+          width: 100%;
+          height:20px;
+          font-size:14px;
+          font-weight:500;
+          color:rgba(0, 209, 255, 1);
+          line-height:20px;
+          padding-left: 8px;
+          border-left: 3px solid rgba(0, 209, 255, 1);
+          text-align: left;
+          box-sizing: border-box;
+          margin-bottom: 10px;
+        }
+        .zjpicbox{
+          display: block;
+          border:1px solid rgba(0, 209, 255, 1);
+          width: 8rem;
+          margin: 0 auto;
+          border-radius: 0.25rem;
+          overflow: hidden;
+          position: relative;
+          margin-bottom: 1rem;
+          .zjpictext{
+            padding: 1rem 0;
+            background-color:rgba(0, 209, 255, 1) ;
+            color:#fff;
+            text-align: center;
+            width: 3.5rem;
+          }
+          .uploadpic_info{
+            position: absolute;
+            left: 3.5rem;
+            right: 0;
+            top:0;
+            bottom:0;
+            padding-top: 1rem;
+            .uploadpic_icon{
+              width: 1.5rem;
+              margin: 0 auto;
+              img{
+                width: 100%;
+              }
+            }
+            .uploadpic_text{
+              font-size: 0.6rem;
+              color:rgba(255,255,255,0.8);
+            }
+          }
+          .uploadpic{
+            opacity: 0;
+            position: absolute;
+            top:0;
+            left: 0;
+          }
+        }
+      }
+      .closebtn{
+        border-top:1px solid rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.8);
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 14px;
+      }
+    }
+  }
+  .itemline{
+    padding: 10px 0px;
+    width: 100%;
+    .itemlabel{
+      float:left;
+      width: 70px;
+      text-align: left;
+      font-size: 14px;
+      color:rgba(0, 209, 255, 1);
+    }
+    .itemvalue{
+      color:#fff;
+      font-size: 14px;
+      padding-left: 70px;
+      text-align: left;
     }
   }
 }

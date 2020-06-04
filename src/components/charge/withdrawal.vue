@@ -118,15 +118,19 @@ export default {
   },
   mounted () {
     this.cuty_id = this.$route.params.id // 地址id
+    this.unit = this.$route.params.unit
     if (this.cuty_id === 1) {
       this.dfg = ''
     }
-    var addressinfo = JSON.parse(window.localStorage.addressinfo);
-    if(addressinfo){
-      this.remark = addressinfo.remark;
-      this.address = addressinfo.address;
+    try{
+      var addressinfo = JSON.parse(window.localStorage.addressinfo);
+      if(addressinfo){
+        this.remark = addressinfo.remark;
+        this.address = addressinfo.address;
+      }
+    }catch(err){
+
     }
-    this.unit = this.$route.params.unit
     this.init()
   },
   methods: {
@@ -658,7 +662,7 @@ export default {
   .btn{
     width:90%;
     height:45px;
-    background:rgba(0,209,255,0.8);
+    background:rgba(0,209,255,1);
     background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
     background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
     background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);

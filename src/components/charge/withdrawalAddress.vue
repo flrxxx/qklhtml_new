@@ -69,7 +69,7 @@ export default {
       })
     },
     setaddress (id,remark,address) {
-      var temp = {id:id,remark:remark,address:address};
+      var temp = {"id":id,"remark":remark,"address":address};
       window.localStorage.setItem("addressinfo",JSON.stringify(temp));
       this.$router.push({
         path: `/withdrawal/${this.unit}`

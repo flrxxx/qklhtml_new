@@ -71,13 +71,13 @@ export default {
   width: 100%;
   min-height: 100vh;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -115,14 +115,14 @@ export default {
       min-height: 98px;
       padding: 15px 10px;
       box-sizing: border-box;
-      background:rgba(3, 26, 46, 1);
+      background:rgba(26, 26, 26, 1);
       border-radius:5px;
       .tou{
         width:100%;
         height:22px;
         font-size:16px;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(0,209,255,1);
         line-height:22px;
         text-align: left;
         margin-bottom: 6px;
@@ -132,7 +132,7 @@ export default {
         height:34px;
         font-size:14px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255,255,255, 1);
         line-height:17px;
         overflow : hidden;
         text-overflow: ellipsis;
@@ -146,7 +146,7 @@ export default {
         height:17px;
         font-size:12px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255,255,255, 1);
         line-height:17px;
         text-align: right;
       }

@@ -19,21 +19,33 @@
       <div class="sjh" v-for="(item, index) in list" :key="index">
         <div class="my_team">{{ item.msg }}</div>
         <div class="team_num">
-          <div class="num" :class="item.num > 0 ? 'num_active' : ''">
-            <div class="num_1">团队1</div>
-            <div class="num_2">{{ item.num > 0 ? '已达标' : '未达标' }}</div>
+          <div style="margin-bottom: 15px; width: 100%;">
+          <div class="num" >
+            <div class="num_1">团队1 <font>{{ item.num > 0 ? '已达标' : '未达标' }}</font></div>
+            <div class="typenum">
+              <div class="num_2"><div class="nowline" :style="{width: item.num > 0 ? '100%' : '0%'}"></div></div>
+              <div class="nowtext">{{ item.num > 0 ? '100%' : '0%' }}</div>
+            </div>
+
           </div>
-          <div class="num" :class="item.num > 1 ? 'num_active' : ''">
-            <div class="num_1">团队2</div>
-            <div class="num_2">{{ item.num > 1 ? '已达标' : '未达标' }}</div>
+          <div class="num" >
+            <div class="num_1">团队2 <font>{{ item.num > 1 ? '已达标' : '未达标' }}</font></div>
+            <div class="typenum">
+              <div class="num_2"><div class="nowline" :style="{width: item.num > 0 ? '100%' : '0%'}"></div></div>
+              <div class="nowtext">{{ item.num > 1 ? '100%' : '0%' }}</div>
+            </div>
           </div>
-          <div class="num" :class="item.num > 2 ? 'num_active' : ''">
-            <div class="num_1">团队3</div>
-            <div class="num_2">{{ item.num > 2 ? '已达标' : '未达标' }}</div>
+          <div class="num" >
+            <div class="num_1">团队3 <font>{{ item.num > 2 ? '已达标' : '未达标' }}</font></div>
+            <div class="typenum">
+              <div class="num_2"><div class="nowline" :style="{width: item.num > 0 ? '100%' : '0%'}"></div></div>
+              <div class="nowtext">{{ item.num > 2 ? '100%' : '0%' }}</div>
+            </div>
           </div>
-          <div class="ylj" v-if="item.get_status == '0'">未达标</div>
-          <div class="ylj1" v-if="item.get_status == '1'" @click="reward(item.id)">待领取</div>
-          <div class="ylj" v-if="item.get_status == '2'">已领取</div>
+          </div>
+          <div class="ylj" v-if="item.get_status == '0'">{{item.satisfy}}T达标奖励未达标</div>
+          <div class="ylj1" v-if="item.get_status == '1'" @click="reward(item.id)">{{item.satisfy}}T达标奖励待领取</div>
+          <div class="ylj" v-if="item.get_status == '2'">{{item.satisfy}}T达标奖励已领取</div>
         </div>
       </div>
       <!-- <div class="no_data">
@@ -61,7 +73,9 @@ export default {
     init () {
       this.$post('/grade/standardList')
         .then(res => {
+
           this.list = res.data
+
           if (res.status === 10001) {
             this.$message({
               message: res.msg,
@@ -79,11 +93,20 @@ export default {
     reward (e) {
       this.$post('/grade/getReward', {id: e})
         .then(res => {
-          this.$message({
-            message: res.msg,
-            type: 'success'
-          })
-          this.init()
+          if(res.status == '0'){
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
+            this.init()
+          }else{
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
+          }
+
+
         })
     }
   }
@@ -94,15 +117,13 @@ export default {
 <style scoped lang="scss">
 .reward{
   width: 100%;
-  min-height: 100vh;
-  min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -135,7 +156,7 @@ export default {
     box-sizing: border-box;
     margin-top: 10px;
     .title{
-      background:rgba(3,26,46,1);
+      background-color: rgba(26, 26, 26, 1);
       width:100%;
       text-align: left;
       font-size:12px;
@@ -161,9 +182,9 @@ export default {
     }
     .sjh{
       width: 100%;
-      background:rgba(3,26,46,1);
+      background-color: rgba(26, 26, 26, 1);
       border-radius:4px;
-      padding: 8px 22px;
+      padding: 8px 10px;
       box-sizing: border-box;
       margin-bottom: 10px;
       .my_team{
@@ -171,7 +192,7 @@ export default {
         height:22px;
         font-size:16px;
         font-weight:500;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
         line-height:22px;
         margin-bottom: 20px;
       }
@@ -180,7 +201,7 @@ export default {
         display:block;
         width:40px;
         height:2px;
-        background:rgba(0,210,214,0.8);
+        background:rgba(0, 209, 255, 1);
         border-radius:1px;
         margin: 0 auto;
         margin-top: 3px;
@@ -190,26 +211,51 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap:wrap;
         .num{
-          width:22%;
-          border-radius:4px;
-          border:1px solid rgba(0,210,214,1);
-          padding: 16px 0;
+          width:100%;
+          margin-bottom: 10px;
           .num_1{
             width:100%;
             height:20px;
             font-size:14px;
             font-weight:500;
-            color:rgba(0, 210, 214, 1);
+            color:rgba(0, 209, 255, 1);
             line-height:20px;
+            text-align: left;
+            margin-bottom:10px;
+            font{
+              color:#fff;
+              font-size: 14px;
+              margin-left: 5px;
+            }
           }
-          .num_2{
-            width:100%;
-            height:14px;
-            font-size:10px;
-            font-weight:400;
-            color:rgba(0, 210, 214, 1);
-            line-height:14px;
+
+          .typenum{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .num_2{
+              height: 24px;
+              width: 100%;
+              padding: 2px;
+              border:1px solid rgba(0, 209, 255, 1);
+              box-sizing: border-box;
+              border-radius: 5px;
+              .nowline{
+                width: 0%;
+                transition: all 0.3s;
+                height: 18px;
+                background-color: rgba(0, 209, 255, 1);
+                border-radius: 5px;
+              }
+            }
+            .nowtext{
+              width: 80px;
+              text-align: center;
+              font-size: 14px;
+              color:#fff;
+            }
           }
         }
         .num_active{
@@ -236,25 +282,35 @@ export default {
           }
         }
         .ylj{
-          width:22%;
-          height:45px;
-          line-height: 45px;
-          border-radius:4px;
-          border:1px solid rgba(0,210,214,1);
+          width:80%;
+          margin: 0 auto;
+          height:32px;
+          line-height: 32px;
+          border:1px solid rgba(0, 209, 255, 1);
           font-size:14px;
           font-weight:400;
-          color:rgba(0,210,214,1);
+          color:rgba(255,255,255,1);
+          border-radius: 32px;
+          margin-bottom: 10px;
         }
         .ylj1{
-          width:22%;
-          height:45px;
-          line-height: 45px;
-          border-radius:4px;
-          border:1px solid rgba(0,210,214,1);
+          width:80%;
+          margin: 0 auto;
+          height:32px;
+          line-height: 32px;
+          border:1px solid rgba(0, 209, 255, 1);
           font-size:14px;
           font-weight:400;
-          color:rgba(1, 16, 29, 1);
-          background:rgba(0,210,214,1);
+          color:rgba(255,255,255,1);
+          border-radius: 32px;
+          margin-bottom: 10px;
+          background:rgba(0,209,255,1);
+          background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+          background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+          background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+          background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+          background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+          background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
         }
       }
     }

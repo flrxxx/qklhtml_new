@@ -302,6 +302,7 @@ export default {
       width: 22px;
       height: 22px;
       white-space: nowrap;
+      font-size: 14px;
       color: #fff;
       img{
         width: 100%;
@@ -390,11 +391,18 @@ export default {
           padding: 0 10px;
           line-height: 26px;
           border-radius:23px;
-          border:1px solid rgba(0,210,214,1);
+
           text-align: center;
           font-size:12px;
           font-weight:400;
-          color:rgba(0,210,214,1);
+          color:rgba(255,255,255,1);
+          background:rgba(0,243,255,1);
+          background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+          background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+          background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+          background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+          background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+          background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
           white-space: nowrap;
         }
       }
@@ -419,7 +427,13 @@ export default {
     .submit{
       width:80%;
       height:45px;
-      background:rgba(0,210,214,1);
+      background:rgba(0,243,255,1);
+      background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+      background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+      background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+      background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+      background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+      background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
       border-radius:23px;
       margin-left: 10%;
       margin-top: 40px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="buyMill">
+  <div class="buyMill" >
     <div class="header">
       <div class="icon_left" @click="back()">
         <img src="../../assets/public_back.png" alt="icon"/>
@@ -8,7 +8,8 @@
       <div class="icon_right">
       </div>
     </div>
-    <div class="content">
+    <div class="domscroll">
+      <div class="content">
       <div class="buy_user">
         <div class="buy_user1">购买人信息</div>
         <div class="buy_list">
@@ -74,26 +75,45 @@
       </div>
       <div class="buy_user">
         <div class="buy_user1">合同签署</div>
-        <div class="boardBox" ref="boardBox">
-          <canvas ref="board"
-              @touchstart="mStart"
-              @touchmove="mMove"
-              @touchend="mEnd">
-          </canvas>
+        <div class="boardBox"  @click="showboard">
+          <div v-if="!imgsrc">
+            <div class="boardicon"><img src="../../assets/team_buy_sign.png"> </div>
+            <div class="boardicontext">点击此处签署您的姓名</div>
+          </div>
+          <div v-else class="fullimg">
+            <img :src="imgsrc">
+          </div>
+          <!--<canvas ref="board"-->
+              <!--@touchstart="mStart"-->
+              <!--@touchmove="mMove"-->
+              <!--@touchend="mEnd">-->
+          <!--</canvas>-->
         </div>
         <div class="btn_img">
           <div @click="handelClearEl()">清除</div>
-          <!-- <div @click="handelSaveEl()">保存</div> -->
         </div>
-        <!-- <p @click="handelClearEl()">清除</p>
-        <p @click="handelSaveEl()">保存</p> -->
-        <!-- <img :src="imgsrc" alt=""> -->
+
         <div class="soim">请点击下方按钮阅读买家协议，并在上方空白处签名</div>
         <div style="margin-top: 8px;text-align: center; font-size: 12px;">
           <el-checkbox v-model="checked1" style="color:#fff;" text-color="#ffffff">阅读买家协议</el-checkbox>
         </div>
       </div>
+
+
+      <div class="back_cv">
+        <div class="leuoj">身份认证</div>
+        <div class="cflp">
+          <div class="pasfm" style="flex: 1;margin-bottom: 0">
+            <div class="pasfm1">&nbsp;&nbsp;验证码&nbsp;</div>
+            <input type="number" placeholder="请输入验证码" class="ipt" v-model="phone_code" >
+          </div>
+          <div class="sub_code" @click="getcodenow()" v-if="yhsi">获取验证码</div>
+          <div v-if="!yhsi" class="sub_code">{{ getCode1 }} s后获取</div>
+        </div>
+      </div>
+
       <div class="submit" @click="submit()">生成订单</div>
+    </div>
     </div>
     <!-- <div class="signature" v-show="detu">
       <div class="boardBox" ref="boardBox">
@@ -104,6 +124,17 @@
         </canvas>
       </div>
     </div> -->
+    <div class="positionboard" v-if="showboardbox">
+      <div class="positionboardbox" id="positionboardbox" ref="boardBox">
+        <canvas ref="board"
+          @touchstart="mStart"
+          @touchmove="mMove"
+          @touchend="mEnd">
+        </canvas>
+        <div class="btn" @click="handelSaveEl">确认签名</div>
+      </div>
+      <div class="positionboard_bg" @click="hideboard"></div>
+    </div>
     <div class="tangj" v-if="tjr" @click.self="close()">
       <div class="desout">
         <div class="tis">密码</div>
@@ -123,16 +154,25 @@
         </div>
       </div>
     </div>
+    <business ref="business" @submitpassword="submitpassword"></business>
+    <loading ref="loading"></loading>
   </div>
 </template>
 
 <script>
 let canvas = document.createElement('canvas')
+import business from "../parts/business.vue";
+import loading from '../parts/loading.vue';
 // let cxt = canvas.getContext('2d')
 export default {
   name: 'buyMill',
+  components:{business,loading},
   data () {
     return {
+      getCode1: '60',
+      getCode: '获取验证码',
+      yhsi: true,
+      codesend: true,
       checked1: false,
       balance: false,
       kkl: false,
@@ -143,9 +183,10 @@ export default {
       usdt_num: '',
       invite: {},
       phone: '',
+      phonenum:'',
       name: '',
       buy_id: '',
-      number: 0,
+      number: 1,
       password: '',
       linewidth: 10, // 线条粗细，选填
       color: '#FF0000', // 线条颜色，选填
@@ -156,24 +197,30 @@ export default {
       hasdate: 'nothing',
       imgsrc: '',
       ctx: null,
+      showboardbox:false,
+      phone_code:'',
       point: {
         x: 0,
         y: 0
       },
+      order_card_url:'',
+      order_card_id:'',
       detu: false,
       img_bo: null,
       moving: false // 是否正在绘制中且移动
     }
   },
   mounted () {
-    this.init()
-    this.img_bo = this.$refs.board
-    let board = this.$refs.board // 获取DOM
-    board.width = this.$refs.boardBox.offsetWidth // 设置画布宽
-    board.height = this.$refs.boardBox.offsetHeight // 设置画布高
-    this.ctx = board.getContext('2d') // 二维绘图
-    this.ctx.strokeStyle = '#00d2d6' // 颜色
-    this.ctx.lineWidth = 3 // 线条宽度
+
+    this.number = this.$route.params.number ? this.$route.params.number : this.number;
+    this.init();
+    // this.img_bo = this.$refs.board
+    // let board = this.$refs.board // 获取DOM
+    // board.width = this.$refs.boardBox.offsetWidth // 设置画布宽
+    // board.height = this.$refs.boardBox.offsetHeight // 设置画布高
+    // this.ctx = board.getContext('2d') // 二维绘图
+    // this.ctx.strokeStyle = '#00d2d6' // 颜色
+    // this.ctx.lineWidth = 3 // 线条宽度
   },
   filters: {
     hideMiddle (value) {
@@ -238,7 +285,7 @@ export default {
           this.salecard = this.saleflag ? '暂无可用现金券' : res.data.length + '张可用'
           this.hasdate = this.saleflag ? 'nothing' : ''
           if(!this.saleflag){
-            window.localStorage.setItem("salecard",res.data);
+            window.localStorage.setItem("salecard",JSON.stringify(res.data));
           }else{
             window.localStorage.setItem("salecard",'null');
           }
@@ -249,6 +296,7 @@ export default {
           this.invite = res.data.user[0]
           // this.phone = res.data.user[0].user.phone
           this.phone = res.data.user[0].UID
+          this.phonenum = res.data.user[0].user.phone
           this.name = res.data.user[0].user.name
           if (res.status === 10001) {
             this.$message({
@@ -264,6 +312,62 @@ export default {
         .then(res => {
           this.asset = res.data.asset
         })
+    },
+    getcodenow () {
+      if(this.codesend){
+        this.codesend = false;
+        this.$post('/user/sendCode', {phone: this.phonenum})
+          .then(res => {
+            this.codesend = true;
+            console.log(res);
+            if (res.status === 10001) {
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+              this.$router.push({
+                path: `/`
+              })
+            }
+            if(res.status == 0){
+
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.yhsi = false
+              if (res.status === 0) {
+                let that = this
+                that.telCode = 60
+                var TIME_COUNT = setInterval(() => {
+                  if (that.telCode > 0) {
+                    that.yhsi = false
+                    that.telCode--
+                    that.getCode = that.telCode
+                    that.getCode1 = that.telCode
+                  } else {
+                    that.yhsi = true
+                    this.codesend = true;
+                    clearInterval(TIME_COUNT)
+                  }
+                }, 1000)
+              }
+            }else{
+              this.diolog.text = res.msg;
+              this.diolog.show = true;
+              this.diolog.btn[0].callback = () => this.diolog.show = false
+              this.yhsi = true
+              this.codesend = true;
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+            }
+          })
+          .catch(err => {
+            this.yhsi = true
+          })
+      }
     },
     contract () {
       this.$router.push({
@@ -287,9 +391,11 @@ export default {
       this.$router.go(-1)
     },
     salepage(type){
+
       if(!type)
         this.$router.push({
-          path: `/buyMill/sale_card`
+          name: `salecard`,
+          params:{number:this.number}
         })
 
     },
@@ -297,42 +403,53 @@ export default {
       this.number++
     },
     sub () {
-      this.number--
-      if (this.number < 0) {
-        this.number = 0
+
+
+      if (this.number > 1) {
+        this.number--
+      }else{
+
         this.$message({
           message: '最少购买1T',
-          type: 'success'
+          type: 'error'
         })
       }
     },
     submit () {
-      if (this.number > 0) {
-        if (this.kkl) {
-          if (this.checked1) {
-            if (this.asset.USDT >= this.number * this.usdt_num) {
-              this.tjr = true
+      if(this.phone_code){
+        if (this.number > 0) {
+          if (this.kkl) {
+            if (this.checked1) {
+              if (this.asset.USDT >= (this.number * this.usdt_num) - this.salenum) {
+                this.$refs.business.businessshow();
+              } else {
+                this.balance = true
+              }
             } else {
-              this.balance = true
+              this.$message({
+                message: '请同意买家协议',
+                type: 'error'
+              })
             }
           } else {
             this.$message({
-              message: '请同意买家协议',
-              type: 'success'
+              message: '请签名',
+              type: 'error'
             })
           }
         } else {
           this.$message({
-            message: '请签名',
-            type: 'success'
+            message: '最少购买1T',
+            type: 'error'
           })
         }
-      } else {
+      }else{
         this.$message({
-          message: '最少购买1T',
-          type: 'success'
+          message: '请输入验证码',
+          type: 'error'
         })
       }
+
       // if (this.number < 1) {
       //   this.number = 0
       //   this.$message({
@@ -343,6 +460,38 @@ export default {
       //   this.tjr = true
       // }
     },
+    submitpassword(value){
+      this.$refs.loading.loadingshow();
+      this.$post('/order/create',{id: this.buy_id, num: this.number, trade_pwd: value, order_card_id: this.img_id,cash_coupon_id:this.cash_coupon_id,phone_code:this.phone_code})
+        .then(res =>{
+          this.$refs.loading.loadinghide();
+          if (res.status == 10001) {
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
+            this.$router.push({
+              path: `/`
+            })
+          }
+          if(res.status == 0){
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            })
+            this.$router.push({
+              path: `/record/2/${this.unit}`
+            })
+          }else{
+            this.$refs.business.value = '';
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
+          }
+        })
+    },
+
     close () {
       this.tjr = false
     },
@@ -354,65 +503,90 @@ export default {
     close1 () {
       this.balance = false
     },
-    confirm () {
-      if (this.password) {
-        let imgBase64 = this.img_bo.toDataURL()
-        this.imgsrc = imgBase64
-        let formData = new FormData()
-        let ccp = this.base64ToFile(this.imgsrc, 'file')
-        this.hpl = ccp
-        formData.append('file', this.hpl)
-        this.$post('/image/upload', formData)
-          .then(res => {
-            this.img_id = res
-            if (this.img_id > 0) {
-              this.$post('/order/create', {id: this.buy_id, num: this.number, trade_pwd: this.password, order_card_id: this.img_id})
-                .then(res => {
-                  if (res.status === 0) {
-                    this.$message({
-                      message: res.msg,
-                      type: 'success'
-                    })
-                    this.$router.push({
-                      path: `/myOrder/2`
-                    })
-                  } else {
-                    this.$message({
-                      message: res.msg,
-                      type: 'error'
-                    })
-                    this.password = ''
-                  }
-                })
-            } else {
-              this.$message({
-                message: res.msg,
-                type: 'error'
-              })
-            }
-          })
-        this.tjr = false
-      } else {
-        this.$message({
-          message: '请输入密码',
-          type: 'error'
-        })
-      }
+    showboard(){
+      this.showboardbox = true
+      setTimeout(()=>{
+        this.img_bo = this.$refs.board
+        var height = document.getElementById('positionboardbox').clientHeight
+        var width = document.getElementById('positionboardbox').clientWidth
+        this.offsetleft = document.getElementById('positionboardbox').offsetLeft;
+        this.offsettop = document.getElementById('positionboardbox').offsetTop;
+        let board = this.$refs.board // 获取DOM
+        board.width = width // 设置画布宽
+        board.height = height // 设置画布高
+        this.ctx = board.getContext('2d') // 二维绘图
+        this.ctx.strokeStyle = 'rgba(0, 210, 214, 1)' // 颜色
+        this.ctx.lineWidth = 3 // 线条宽度
+      },50)
     },
+    hideboard(){
+      this.showboardbox = false
+    },
+    // confirm () {
+    //   if (this.password) {
+    //     let imgBase64 = this.img_bo.toDataURL()
+    //     this.imgsrc = imgBase64
+    //     let formData = new FormData()
+    //     let ccp = this.base64ToFile(this.imgsrc, 'file')
+    //     this.hpl = ccp
+    //     formData.append('file', this.hpl)
+    //     this.$post('/image/upload', formData)
+    //       .then(res => {
+    //         this.img_id = res
+    //         if (this.img_id > 0) {
+    //           this.$post('/order/create', {id: this.buy_id, num: this.number, trade_pwd: this.password, order_card_id: this.img_id})
+    //             .then(res => {
+    //               if (res.status === 0) {
+    //                 this.$message({
+    //                   message: res.msg,
+    //                   type: 'success'
+    //                 })
+    //                 this.$router.push({
+    //                   path: `/myOrder/2`
+    //                 })
+    //               } else {
+    //                 this.$message({
+    //                   message: res.msg,
+    //                   type: 'error'
+    //                 })
+    //                 this.password = ''
+    //               }
+    //             })
+    //         } else {
+    //           this.$message({
+    //             message: res.msg,
+    //             type: 'error'
+    //           })
+    //         }
+    //       })
+    //     this.tjr = false
+    //   } else {
+    //     this.$message({
+    //       message: '请输入密码',
+    //       type: 'error'
+    //     })
+    //   }
+    // },
+
+
     // 触摸(开始)
     mStart (e) {
-      let x = e.touches[0].clientX - e.target.offsetLeft
-      let y = e.touches[0].clientY - e.target.offsetTop // 获取触摸点在画板（canvas）的坐标
+
+      // let x = e.touches[0].clientX - e.target.offsetLeft
+      // let y = e.touches[0].clientY - e.target.offsetTop // 获取触摸点在画板（canvas）的坐标
+      let x = e.changedTouches[0].clientX - this.offsetleft
+      let y = e.changedTouches[0].clientY - this.offsettop
       this.point.x = x
       this.point.y = y
+      console.log(y)
       this.ctx.beginPath()
       this.moving = true
     },
     // 滑动中...
     mMove (e) {
       if (this.moving) {
-        let x = e.touches[0].clientX - e.target.offsetLeft
-        let y = e.touches[0].clientY - e.target.offsetTop // 获取触摸点在画板（canvas）的坐标
+        let x = e.changedTouches[0].clientX - this.offsetleft
+        let y = e.changedTouches[0].clientY - this.offsettop
         this.ctx.moveTo(this.point.x, this.point.y) // 把路径移动到画布中的指定点，不创建线条(起始点)
         this.ctx.lineTo(x, y) // 添加一个新点，然后创建从该点到画布中最后指定点的线条，不创建线条
         this.ctx.stroke() // 绘制
@@ -431,6 +605,8 @@ export default {
     handelClearEl () {
       this.ctx.clearRect(0, 0, canvas.width, canvas.height)
       this.kkl = false
+      this.imgsrc =''
+      this.img_id=''
     },
     handelSaveEl () {
       let imgBase64 = this.img_bo.toDataURL()
@@ -441,8 +617,19 @@ export default {
       formData.append('file', this.hpl)
       this.$post('/image/upload', formData)
         .then(res => {
-          this.img_id = res
+          if (res.status == 10001) {
+            this.$message({
+              message: res.msg,
+              type: 'error'
+            })
+            this.$router.push({
+              path: `/`
+            })
+          }
+
           if (res > 0) {
+            this.img_id = res
+            this.showboardbox = false
             this.$message({
               message: '保存成功',
               type: 'success'
@@ -487,9 +674,23 @@ export default {
 <style scoped lang="scss">
 .buyMill{
   width: 100%;
-  min-height: 100vh;
-  padding-bottom: 20px;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom:0;
+  overflow: hidden;
+  .domscroll{
+    position: absolute;
+    top:44px;
+    left: 0;
+    right: 0;
+    bottom:0;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
   .header{
     height: 44px;
     display: flex;
@@ -536,7 +737,7 @@ export default {
       div{
         width:40%;
         height:27px;
-        background:rgba(0,210,214,0.8);
+        background:rgba(0,243,255,1);
         background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
         background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
         background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
@@ -548,6 +749,139 @@ export default {
         font-weight:400;
         color:#fff;
         line-height: 27px;
+      }
+    }
+    .back_cv{
+      width:100%;
+      background:rgba(26, 26, 26, 1);
+      border-radius:4px;
+      padding: 5px 17px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      .cflp{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        .sub_code{
+          height:22px;
+          font-size:16px;
+          font-weight:500;
+          color:rgba(0, 209, 255, 1);
+          line-height:22px;
+          padding: 0 10px;
+          box-sizing: border-box;
+        }
+      }
+      .leuoj{
+        width: 100%;
+        height:40px;
+        font-size:16px;
+        font-weight:500;
+        color:rgba(0, 209, 255, 1);
+        line-height:40px;
+        text-align: center;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        position: relative;
+        &:after{
+          content:"";
+          border-bottom:2px solid rgba(0,209,255,1);
+          width:40px;
+          left: 50%;
+          margin-left: -20px;
+          bottom:0;
+          position: absolute;
+        }
+      }
+      .pasfm{
+        width: 100%;
+        height:40px;
+        border-radius:4px;
+        border:1px solid rgba(0, 209, 255, 1);
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+        .rightarrow{
+          position: absolute;
+          right:0.5rem;
+          width: 0.7rem;
+          height: .45rem;
+          top:50%;
+          margin-top: -0.225rem;
+          img{
+            display: block;
+            width: 100%;
+          }
+        }
+        .pasfm1{
+          height:40px;
+          line-height: 40px;
+          background:rgba(0, 209, 255, 1);
+          padding: 0 20px;
+          border-radius: 4px 0px 0px 4px;
+          font-size:14px;
+          font-weight:400;
+          color:rgba(255,255,255,1);
+          white-space: nowrap;
+        }
+        .ipt{
+          flex: 1;
+          border: none;
+          background-color: rgba(0, 210, 214, 0);
+          outline: none;
+          line-height: 40px;
+          color: rgba(255,255,255,1);
+          font-size:14px;
+          font-weight:400;
+          max-width: 100%;
+          width: 100%;
+          text-indent: 1em;
+        }
+      }
+      .zjpicbox{
+        display: block;
+        border:1px solid rgba(0, 209, 255, 1);
+        width: 8rem;
+        margin: 0 auto;
+        border-radius: 0.25rem;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 1rem;
+        .zjpictext{
+          padding: 1rem 0;
+          background-color:rgba(0, 209, 255, 1) ;
+          color:#fff;
+          text-align: center;
+          width: 3.5rem;
+        }
+        .uploadpic_info{
+          position: absolute;
+          left: 3.5rem;
+          right: 0;
+          top:0;
+          bottom:0;
+          padding-top: 1rem;
+          .uploadpic_icon{
+            width: 1.5rem;
+            margin: 0 auto;
+            img{
+              width: 100%;
+            }
+          }
+          .uploadpic_text{
+            font-size: 0.6rem;
+            color:rgba(255,255,255,0.8);
+          }
+        }
+        .uploadpic{
+          opacity: 0;
+          position: absolute;
+          top:0;
+          left: 0;
+        }
       }
     }
     .buy_user{
@@ -714,19 +1048,42 @@ export default {
         height:14px;
         font-size:10px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:#00d1ff;
         line-height:14px;
       }
       .boardBox{
         width: 80%;
         height:95px;
         margin: 0 auto;
-        background:rgba(1,16,29,1);
-        canvas{
-          width: 100%!important;
-          height:95px!important;
-          background:rgba(1,16,29,1)!important;
-          border-radius:4px!important;
+        background:rgba(16,16,16,1);
+        padding-top: 25px;
+        position: relative;
+        .fullimg{
+          position:absolute;
+          top:0px;
+          left:0;
+          right: 0;
+          bottom:0;
+          z-index: 1;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .boardicon{
+          width: 1.5rem;
+          height: 1.5rem;
+          margin: 0 auto;
+          margin-bottom: 10px;
+          img{
+            width: 100%;
+            height: 100%;
+            display: block;
+          }
+        }
+        .boardicontext{
+          font-size: 14px;
+          color:rgba(255,255,255,0.5);
         }
       }
       .test{
@@ -740,10 +1097,10 @@ export default {
     .submit{
       width: 90%;
       margin: 0 auto;
-      margin-top: 30px;
+      margin-top: 15px;
       height:40px;
       line-height: 40px;
-      background:rgba(0,210,214,0.8);
+      background: rgba(0,243,255,1);
       background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
       background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
       background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
@@ -768,12 +1125,20 @@ export default {
     align-items: center;
     .boardBox{
       width: 80%;
+      height:95px;
       margin: 0 auto;
-      canvas{
-        width: 100%!important;
-        height:95px!important;
-        background:rgba(1,16,29,1)!important;
-        border-radius:4px!important;
+      position: relative;
+      .fullimg{
+        position:absolute;
+        top:0px;
+        left:0;
+        right: 0;
+        bottom:0;
+        z-index: 1;
+        img{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
@@ -851,6 +1216,51 @@ export default {
           font-weight:400;
           color:rgba(0, 210, 214, 1);
         }
+      }
+    }
+  }
+  .positionboard{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    .positionboard_bg{
+      position: absolute;
+      top:0;
+      right: 0;
+      left: 0;
+      bottom:0;
+      z-index: 1;
+      background-color:rgba(0,0,0,0.8)
+    }
+    .positionboardbox{
+      position: absolute;
+      top:10%;
+      width: 80%;
+      left: 10%;
+      height: 60%;
+      z-index: 10;
+      background-color:rgba(26,26,26,1);
+      .btn{
+        width: 80%;
+        margin: 0 auto;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        background: rgba(0,243,255,1);
+        background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+        background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+        position: absolute;
+        color:#fff;
+        border-radius: 10px;
+        left: 10%;
+        bottom:-84px;
       }
     }
   }

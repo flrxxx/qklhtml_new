@@ -232,13 +232,13 @@ export default {
   width: 100%;
   min-height: 100vh;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16, 16, 16, 1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -274,21 +274,20 @@ export default {
       width: 100%;
       height: 40px;
       display: flex;
-      background:rgba(3,26,46,1);
+      background-color: rgba(26, 26, 26, 1);
       border-radius:4px;
       .tab1{
         width:50%;
         height:40px;
         font-size:14px;
         font-weight:400;
-        background:rgba(3,26,46,1);
-        color:rgba(0, 210, 214, 1);
+        background-color: rgba(26, 26, 26, 1);
+        color:rgba(255,255,255, 1);
         line-height:40px;
         border-radius:4px;
       }
       .active{
-        background:rgba(0,210,214,0.8);
-        color:rgba(1,16,29,1);
+        background:rgba(0, 209, 255, 1);
       }
     }
     .current{
@@ -298,7 +297,7 @@ export default {
         width: 100%;
         padding: 8px 10px;
         box-sizing: border-box;
-        background:rgba(3,26,46,1);
+        background-color: rgba(26, 26, 26, 1);
         border-radius:4px;
         margin-bottom: 8px;
         .leuoj{
@@ -306,10 +305,10 @@ export default {
           height:40px;
           font-size:14px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:rgba(0, 209, 255, 1);
           line-height:40px;
           padding-left: 8px;
-          border-left: 3px solid rgba(0,210,214,0.8);
+          border-left: 3px solid rgba(0, 209, 255, 1);
           text-align: left;
           box-sizing: border-box;
           display: flex;
@@ -337,7 +336,7 @@ export default {
               height:14px;
               font-size:10px;
               font-weight:400;
-              color:rgba(0,210,214,1);
+              color:rgba(0, 209, 255, 1);
               line-height:14px;
               margin-top: 5px;
             }
@@ -352,11 +351,17 @@ export default {
           .cancel{
             width:45%;
             height:27px;
-            background:rgba(0,210,214,0.8);
+            background:rgba(0,209,255,0.8);
+            background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+            background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+            background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+            background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+            background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+            background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
             border-radius:23px;
             font-size:12px;
             font-weight:400;
-            color:rgba(1,16,29,1);
+            color:#fff;
             line-height:27px;
           }
         }
@@ -379,7 +384,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:400;
-      color:rgba(0,210,214,1);
+      color:rgba(0, 209, 255, 1);
       line-height:22px;
       margin-top: 5px;
     }
@@ -398,7 +403,7 @@ export default {
       width: 70%;
       padding-top: 24px;
       box-sizing: border-box;
-      background-color: rgba(3, 26, 46, 1);
+      background-color: rgba(26, 26, 26, 1);
       border-radius:10px;
       margin: auto;
       .ipt{
@@ -408,11 +413,11 @@ export default {
         height:40px;
         line-height: 40px;
         border-radius:4px;
-        border:1px solid rgba(0,210,214,0.8);
+        border:1px solid rgba(0, 209, 255, 1);
         background-color: rgba(0, 210, 214, 0);
         font-size:14px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(0, 209, 255, 1);
       }
       .tis{
         width: 90%;
@@ -421,7 +426,7 @@ export default {
         text-align: left;
         font-size:16px;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(0, 209, 255, 1);
         line-height:22px;
         margin-bottom: 7px;
       }
@@ -448,7 +453,7 @@ export default {
           line-height: 40px;
           font-size:16px;
           font-weight:400;
-          color:rgba(0, 210, 214, 1);
+          color:rgba(0, 209, 255, 1);
         }
         .two_right{
           width: 50%;
@@ -456,7 +461,7 @@ export default {
           line-height: 40px;
           font-size:16px;
           font-weight:400;
-          color:rgba(0, 210, 214, 1);
+          color:rgba(0, 209, 255, 1);
         }
       }
     }

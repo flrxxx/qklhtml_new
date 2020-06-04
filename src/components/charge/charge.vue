@@ -202,13 +202,13 @@ export default {
   width: 100%;
   min-height: 100vh;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -227,6 +227,7 @@ export default {
      }
     .icon_right{
       color:rgba(255, 255, 255, 1);
+      font-size: 14px;
     }
   }
   .content{
@@ -236,7 +237,7 @@ export default {
     margin-top: 10px;
     .back_cv{
       width:100%;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       border-radius:4px;
       padding: 5px 17px;
       margin-bottom: 10px;
@@ -247,10 +248,10 @@ export default {
       height:20px;
       font-size:14px;
       font-weight:500;
-      color:rgba(0,210,214,1);
+      color:rgba(0,209,255,1);
       line-height:20px;
       padding-left: 8px;
-      border-left: 3px solid rgba(0,210,214,0.8);
+      border-left: 3px solid rgba(0,209,255,1);
       text-align: left;
       box-sizing: border-box;
       margin-bottom: 10px;
@@ -259,19 +260,19 @@ export default {
       width: 100%;
       height:40px;
       border-radius:4px;
-      border:1px solid rgba(0,210,214,0.8);
+      border:1px solid rgba(0,209,255,1);
       display: flex;
       align-items: center;
       margin-bottom: 10px;
       .pasfm1{
         height:40px;
         line-height: 40px;
-        background:rgba(0,210,214,0.8);
+        background:rgba(0,209,255,1);
         padding: 0 20px;
         border-radius: 4px 0px 0px 4px;
         font-size:14px;
         font-weight:400;
-        color:rgba(1,16,29,1);
+        color:rgba(255,255,255,1);
         white-space: nowrap;
       }
       .ipt{
@@ -280,7 +281,7 @@ export default {
         background-color: rgba(0, 210, 214, 0);
         outline: none;
         line-height: 40px;
-        color: rgba(0, 210, 214, 0.5);
+        color: rgba(255, 255, 255, 1);
         font-size:14px;
         font-weight:400;
         max-width: 100%;
@@ -297,12 +298,12 @@ export default {
       margin-bottom: 10px;
     }
     .title{
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       width:100%;
       text-align: left;
       font-size:12px;
       font-weight:400;
-      color:rgba(0, 210, 214, 1);
+      color:rgba(255,255,255,1);
       line-height:17px;
       margin-bottom: 10px;
       padding: 8px 15px;
@@ -312,10 +313,10 @@ export default {
         height:20px;
         font-size:14px;
         font-weight:500;
-        color:rgba(0,210,214,1);
+        color:rgba(0,209,255,1);
         line-height:20px;
         padding-left: 8px;
-        border-left: 3px solid rgba(0,210,214,0.8);
+        border-left: 3px solid rgba(0,209,255,1);
         text-align: left;
         box-sizing: border-box;
         margin-bottom: 10px;
@@ -414,7 +415,13 @@ export default {
   .btn{
     width:90%;
     height:45px;
-    background:rgba(0,210,214,0.8);
+    background:rgba(0,209,255,1);
+    background: -moz-linear-gradient(135deg, rgba(0,243,255,1) 0%, rgba(0,160,255,1) 100%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,243,255,1)), color-stop(100%,rgba(0,160,255,1)));
+    background: -webkit-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+    background: -o-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+    background: -ms-linear-gradient(135deg, rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
+    background: linear-gradient(135deg,rgba(0,243,255,1) 0%,rgba(0,160,255,1) 100%);
     border-radius:23px;
     margin-left: 5%;
     margin-top: 70px;
@@ -423,7 +430,7 @@ export default {
     font-size:18px;
     font-family:PingFangSC-Regular,PingFang SC;
     font-weight:400;
-    color:rgba(1, 16, 29, 1);
+    color:rgba(255,255,255,1);
     // background-color: red; /* 不支持线性的时候显示 */
     // background-image: linear-gradient(to bottom right, #00F3FF , #00A0FF);
   }

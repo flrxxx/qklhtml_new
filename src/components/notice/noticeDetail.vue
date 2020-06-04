@@ -60,13 +60,13 @@ export default {
   width: 100%;
   min-height: 100vh;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -104,7 +104,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:500;
-      color:rgba(0, 210, 214, 1)!important;
+      color:rgba(0,209,255,1)!important;
       line-height:22px;
     }
     .time{
@@ -112,7 +112,7 @@ export default {
       height:17px;
       font-size:12px;
       font-weight:400;
-      color:rgba(0, 210, 214, 1)!important;
+      color:rgba(255,255,255, 1)!important;
       line-height:17px;
       text-align: right;
     }
@@ -120,17 +120,17 @@ export default {
       width:100%;
       font-size:14px;
       font-weight:400;
-      color:rgba(0, 210, 214, 0.7)!important;
+      color:rgba(0,209,255,1)!important;
       line-height:17px;
       margin-top: 10px;
       text-align: left;
       // text-indent: 1em;
     }
     .taectad >>> p{
-      color:rgba(0, 210, 214, 0.7)!important;
+      color:rgba(255,255,255, 0.7)!important;
     }
     .taectad >>> span{
-      color:rgba(0, 210, 214, 0.7)!important;
+      color:rgba(255,255,255, 0.7)!important;
     }
   }
 }

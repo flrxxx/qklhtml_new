@@ -134,13 +134,13 @@ export default {
 .serv{
   width: 100%;
   min-height: 100vh;
-  background-color: rgba(1, 16, 29, 1);
+  background-color: rgba(16, 16, 16, 1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3,26,46,1);
+    background-color: rgba(26,26,26,1);
     padding: 0 16px;
     box-sizing: border-box;
     .icon_left{
@@ -172,7 +172,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     border-radius: 8px;
     .help_email{
       width: 50%;
@@ -190,7 +190,7 @@ export default {
         height:22px;
         font-size:16px;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255,255,255,1);
         line-height:22px;
         margin-left: 6px;
       }
@@ -202,14 +202,14 @@ export default {
     text-align: center;
     font-size:16px;
     font-weight:400;
-    color:rgba(0, 210, 214, 1);
+    color:rgba(255, 255, 255, 1);
   }
   .zixun:after{
       content: '';
       display:block;
       width:40px;
       height:2px;
-      background:rgba(0,210,214,0.8);
+      background:rgba(255,255,255,1);
       border-radius:1px;
       margin: 0 auto;
       margin-top: 3px;
@@ -222,7 +222,7 @@ export default {
     .list{
       width:100%;
       height:69px;
-      background:rgba(3, 26, 46, 1);
+      background:rgba(26, 26, 26, 1);
       border-radius:5px;
       padding: 8px 20px;
       box-sizing: border-box;
@@ -233,7 +233,7 @@ export default {
         font-size:14px;
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255, 255, 255, 1);
         line-height:17px;
         overflow : hidden;
         text-overflow: ellipsis;
@@ -248,7 +248,7 @@ export default {
         font-size:12px;
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255, 255, 255, 1);
         line-height:17px;
         text-align: right;
         margin-top: 3px;
@@ -278,7 +278,7 @@ export default {
       width: 70%;
       padding-top: 24px;
       box-sizing: border-box;
-      background-color: rgba(3, 26, 46, 1);
+      background-color: rgba(26, 26, 26, 1);
       border-radius:10px;
       margin: auto;
       .tis{
@@ -287,7 +287,7 @@ export default {
         text-align: center;
         font-size:16px;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255, 255, 255, 1);
         line-height:22px;
         margin-bottom: 7px;
       }
@@ -297,7 +297,7 @@ export default {
         height:20px;
         font-size:14px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255, 255, 255, 1);
         line-height:20px;
       }
       .two{
@@ -329,10 +329,10 @@ export default {
   }
   .no_data{
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;
     .data_tbm{
-      width: 61px;
-      margin: 0 auto;
+      width: 40px;
+      margin: 0 auto 10px;
       img{
         width: 100%;
         display: block;
@@ -343,7 +343,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:400;
-      color:rgba(0,210,214,1);
+      color:rgba(255,255,255,0.4);
       line-height:22px;
       margin-top: 5px;
     }

@@ -32,7 +32,7 @@
         <div class="zo_list" v-if="list2.length > 0">
           <div class="list" v-for="item in list2" :key="item.id">
             <div class="list_res">{{item.amount}} {{item.unit}} <font>（手续费 {{item.forward_fee}} {{item.unit}}）</font></div>
-            <div class="list_time">{{item.created_at}}  <font>{{ item.status == '0'? '待审核':item.status =='1'? '提现成功':'提现失败'}}</font>  <font class="fail" v-if="item.status=='2'" @click="checkwhy(item.id)">查看原因</font> </div>
+            <div class="list_time">{{item.created_at}}  <font>{{ item.status == '0'? '待审核':item.status =='1'? '提现成功':'提现失败'}}</font>  <font class="fail" v-if="item.status=='2'" @click="checkwhy(item.tibi_reason)">查看原因</font> </div>
           </div>
           <!--<div class="nextpage" v-if="list2hasmore">查看更多</div>-->
           <!--<div class="nomore" v-else>没有更多了</div>-->
@@ -59,19 +59,31 @@
         </div>
       </div>
     </div>
+    <diolog :diologinfo="diolog"></diolog>
   </div>
 </template>
 
 <script>
+  import diolog from '../parts/diolog.vue';
 export default {
   name: 'record',
+  components:{diolog},
   data () {
     return {
       active: '',
       unit: '',
       list: [],
       list2: [],
-      list3: []
+      list3: [],
+      diolog: {
+        show: false,
+        title: "提示",
+        text: "",
+        btn: [{
+          text: "确定",
+          callback: function () {}
+        }],
+      },
       // list2hasmore:false
     }
   },
@@ -139,6 +151,11 @@ export default {
           path: `/record/${e}/${this.unit}`
         })
       }
+    },
+    checkwhy(text){
+      this.diolog.text = text;
+      this.diolog.show = true;
+      this.diolog.btn[0].callback = () => this.diolog.show = false
     }
   }
 }

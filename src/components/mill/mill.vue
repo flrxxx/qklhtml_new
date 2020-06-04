@@ -173,7 +173,7 @@ export default {
 .team{
   width: 100%;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
@@ -182,7 +182,7 @@ export default {
     // background-color: #ffffff;
     padding: 0 16px;
     box-sizing: border-box;
-    background:rgba(3,26,46,1);
+    background:rgba(26,26,26,1);
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     .icon_left{
       width: 11px;
@@ -312,7 +312,7 @@ export default {
           .name2{
             font-size:24px;
             font-weight:500;
-            color:rgba(0,210,214,1);
+            color:rgba(0, 209, 255, 1);
           }
         }
         .mascv{
@@ -324,7 +324,7 @@ export default {
           div{
             font-size:12px;
             font-weight:500;
-            color:rgba(0,210,214,1);
+            color:rgba(255,255,255, 1);
             margin-right: 8px;
           }
         }
@@ -338,7 +338,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:500;
-      color:rgba(0,210,214,1);
+      color:rgba(0, 209, 255, 1);
       line-height:22px;
       text-align: center;
     }
@@ -347,7 +347,7 @@ export default {
       display:block;
       width:40px;
       height:2px;
-      background:rgba(0,210,214,0.8);
+      background:rgba(0, 209, 255, 1);
       border-radius:1px;
       margin: 0 auto;
       margin-top: 3px;
@@ -355,7 +355,7 @@ export default {
     .list{
       width:100%;
       height:46px;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       border-radius:4px;
       display: flex;
       justify-content: space-between;
@@ -377,20 +377,20 @@ export default {
           height:22px;
           font-size:16px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:rgba(0, 209, 255, 1);
           line-height:22px;
         }
       }
       .list_right{
         font-size:10px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
       }
     }
   }
   .footer{
     width: 100%;
-    background-color: #031A2E;
+    background-color:rgba(26,26,26,1);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -419,7 +419,7 @@ export default {
         line-height:11px;
       }
       .taber_act{
-        color: #00D2D6;
+        color: rgba(0, 209, 255, 1);
       }
     }
   }
@@ -439,7 +439,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:400;
-      color:rgba(0,210,214,1);
+      color:rgba(0, 209, 255, 1);
       line-height:22px;
       margin-top: 5px;
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="outerdom">
+  <div class="outerdom" >
     <div class="header">
       <div class="icon_left" @click="back()">
         <img src="../../assets/public_back.png" alt="icon"/>
@@ -17,16 +17,16 @@
         </div>
         <div class="pasfm">
           <div class="pasfm1">真实姓名</div>
-          <input type="text" placeholder="请输入真实姓名" class="ipt">
+          <input type="text" placeholder="请输入真实姓名" class="ipt" v-model="full_name">
         </div>
         <div class="pasfm">
           <div class="pasfm1">&nbsp;&nbsp;证件号&nbsp;</div>
-          <input type="text" placeholder="请输入证件号" class="ipt">
+          <input type="text" placeholder="请输入证件号" class="ipt" id="idcard" @blur="xycard" v-model="card_no">
         </div>
         <div class="cflp">
           <div class="pasfm" style="flex: 1;margin-bottom: 0">
             <div class="pasfm1">&nbsp;&nbsp;验证码&nbsp;</div>
-            <input type="number" placeholder="请输入验证码" class="ipt" >
+            <input type="number" placeholder="请输入验证码" class="ipt" v-model="phone_code" >
           </div>
           <div class="sub_code" @click="getcodenow()" v-if="yhsi">获取验证码</div>
           <div v-if="!yhsi" class="sub_code">{{ getCode1 }} s后获取</div>
@@ -35,39 +35,60 @@
       <div class="back_cv">
         <div class="leuoj">图片信息</div>
         <label class="zjpicbox" for="piczm">
-          <div class="zjpictext">证件<br>正面</div>
-          <input type="file" class="uploadpic" id="piczm">
-          <div class="uploadpic_info">
-            <div class="uploadpic_icon">
-              <img src="../../assets/update_new.png">
+          <div>
+            <div class="zjpictext">证件<br>正面</div>
+            <input type="file"  @change="addimg($event,'cardpic1')" class="uploadpic" id="piczm">
+            <div class="uploadpic_info">
+              <div  v-if="cardpic1.url" class="fullimg">
+                <img :src="cardpic1.url" >
+              </div>
+              <div v-else>
+                <div class="uploadpic_icon">
+                  <img src="../../assets/update_new.png">
+                </div>
+                <div class="uploadpic_text">上传凭证图片</div>
+              </div>
             </div>
-            <div class="uploadpic_text">上传凭证图片</div>
           </div>
         </label>
         <label class="zjpicbox" for="picbm">
-          <div class="zjpictext">证件<br>背面</div>
-          <input type="file" class="uploadpic" id="picbm">
-          <div class="uploadpic_info">
-            <div class="uploadpic_icon">
-              <img src="../../assets/update_new.png">
+          <div>
+            <div class="zjpictext">证件<br>背面</div>
+            <input type="file"  @change="addimg($event,'cardpic2')" class="uploadpic" id="picbm">
+            <div class="uploadpic_info">
+              <div  v-if="cardpic2.url" class="fullimg">
+                <img :src="cardpic2.url" >
+              </div>
+              <div v-else>
+                <div class="uploadpic_icon">
+                  <img src="../../assets/update_new.png">
+                </div>
+                <div class="uploadpic_text">上传凭证图片</div>
+              </div>
             </div>
-            <div class="uploadpic_text">上传凭证图片</div>
           </div>
         </label>
         <label class="zjpicbox" for="pichand">
-          <div class="zjpictext">证件<br>手持</div>
-          <input type="file" class="uploadpic" id="pichand">
-          <div class="uploadpic_info">
-            <div class="uploadpic_icon">
-              <img src="../../assets/update_new.png">
+          <div>
+            <div class="zjpictext">证件<br>手持</div>
+            <input type="file"  @change="addimg($event,'cardpic3')" class="uploadpic" id="pichand">
+            <div class="uploadpic_info">
+              <div  v-if="cardpic3.url" class="fullimg">
+                <img :src="cardpic3.url">
+              </div>
+              <div v-else>
+                <div class="uploadpic_icon">
+                  <img src="../../assets/update_new.png">
+                </div>
+                <div class="uploadpic_text">上传凭证图片</div>
+              </div>
             </div>
-            <div class="uploadpic_text">上传凭证图片</div>
           </div>
         </label>
       </div>
     </div>
     <div class="footbtn">
-      <div class="btn">提交审核</div>
+      <div class="btn" @click="submit">提交审核</div>
     </div>
     <div class="selectmain" v-if="selectshow">
       <div class="selectbox">
@@ -78,31 +99,50 @@
       </div>
       <div class="select_bg" @click="closeselect"></div>
     </div>
-
+    <loading ref="loading"></loading>
   </div>
 </template>
 
 <script>
+  import loading from '../parts/loading.vue';
     export default {
       name: "realinfo",
+      components:{loading},
       data(){
         return {
+          failnum:true,
           getCode: '获取验证码',
           yhsi: true,
           codesend: true,
+          full_name:'',
+          card_no:'',
+          phone_code:"",
           getCode1: '60',
           cardtype:"身份证",
-          cardtypeid:"",
+          card_type:"1",
           selectshow:false,
-          cardpic1:'',
-          cardpic2:'',
-          cardpic3:'',
+          cardpic1:{
+            url:'',
+            id:''
+          },
+          cardpic2:{
+            url:'',
+            id:''
+          },
+          cardpic3:{
+            url:'',
+            id:''
+          },
+
           phone:'',
           typelist:[{
             id:1,
             name:'身份证'
           },{
             id:2,
+            name:'护照'
+          },{
+            id:3,
             name:'驾驶证'
           }]
         }
@@ -135,6 +175,7 @@
             this.codesend = false;
             this.$post('/user/sendCode', {phone: this.phone})
               .then(res => {
+                this.codesend = true;
                 if (res.status === 10001) {
                   this.$message({
                     message: res.msg,
@@ -179,9 +220,36 @@
               })
           }
         },
+        addimg (event,type) {
+          this.goin = event.target.files[0] // 获取文件流
+          // console.log(this.unkdh.files)
+          this.der = event
+          let _this = this
+          let files = event.target.files[0]
+          if (!event || !window.FileReader) return // 看支持不支持FileReader
+
+          let formData = new FormData()
+          formData.append('file', event.target.files[0])
+          this.$post('/image/idCard/upload', formData)
+            .then(res => {
+              if (res > 0) {
+                this[type].id = res;
+                let reader = new FileReader()
+                reader.readAsDataURL(files) // 这里是最关键的一步，转换就在这里
+                reader.onloadend = function () {
+                  _this[type].url = this.result
+                }
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: 'error'
+                })
+              }
+            })
+        },
         selectitem(item){
           this.cardtype = item.name
-          this.cardtypeid = item.id
+          this.card_type = item.id
           this.selectshow = false
         },
         itemselect(){
@@ -189,6 +257,75 @@
         },
         closeselect(){
           this.selectshow = false
+        },
+        submit(){
+          if(!this.failnum){this.error('身份证号已存在'); return false }
+          if(this.card_type == ''){ this.error('请选择证件类型'); return false }
+          if(this.full_name == ''){ this.error('请输入真实姓名'); return false}
+          if(this.card_no == ''){ this.error('请输入证件号码'); return false}
+          if(this.cardpic1.id == ''){ this.error('请上传证件正面图片'); return false}
+          if(this.cardpic2.id  == ''){this.error('请上传证件背面图片'); return false }
+          if(this.cardpic3.id == ''){this.error('请上传手持证件图片'); return false }
+          if(this.phone_code == ''){this.error('请填写验证码'); return false }
+          this.$refs.loading.loadingshow();
+          this.$post('/user/verify',{
+            "full_name":this.full_name,
+            "card_no":this.card_no,
+            "card_type":this.card_type,
+            "photo-x":this.cardpic1.id,
+            "photo-y":this.cardpic2.id,
+            "photo-hand":this.cardpic3.id,
+            "phone_code":this.phone_code,
+          }).then(res => {
+            this.$refs.loading.loadinghide();
+            if (res.status == 10001) {
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+              this.$router.push({
+                path: `/`
+              })
+            }
+            if(res.status == 0){
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.$router.push({
+                path: `/userinfo`
+              })
+            }else{
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              })
+            }
+          })
+
+
+        },
+        error(msg){
+          this.$message({
+            message: msg,
+            type: 'error'
+          })
+        },
+        xycard(){
+          if(this.card_type == '1'){
+            if(this.card_no.length === 18 || this.card_no.length ===15){
+              this.$post('/user/cardNo/check/'+this.card_no,{cardNo:this.card_no})
+                .then(res =>{
+                  if(res == 0){
+                    this.failnum = false
+                    this.$message({
+                      message: '该身份证号已存在',
+                      type: 'error'
+                    })
+                  }
+                })
+            }
+          }
         }
       }
     }
@@ -499,6 +636,19 @@
         bottom:0;
         background-color: rgba(0,0,0,0.7);
         z-index: 1;
+      }
+    }
+    .fullimg{
+      position: absolute;
+      top:0px;
+      left: 0;
+      right: 0;
+      bottom:0;
+      z-index: 10;
+      img{
+        width: 100%;
+        height: 100%;
+        display: block;
       }
     }
   }

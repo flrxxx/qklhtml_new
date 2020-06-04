@@ -1,11 +1,12 @@
 <template>
-  <div class="userinfo">
+  <div class="userinfo" >
     <div class="header">
       <div class="icon_left" @click="back()">
         <!-- <img src="../../assets/public_back.png" alt="icon"/> -->
       </div>
       <div class="text_con">个人中心</div>
-      <div class="icon_right">
+      <div class="icon_right"  @click="gosign()">
+        每日签到
       </div>
     </div>
     <div class="content">
@@ -26,21 +27,21 @@
         </div>
         <div class="stati">
           <div class="botuc">
-            <div v-if="asset">{{ asset.USDT ? asset.USDT : '0' | hideMiddle }}</div>
-            <div v-if="!asset">0.00</div>
+            <div class="botuc_value" v-if="asset">{{ asset.USDT ? asset.USDT : '0' | hideMiddle }}</div>
+            <div class="botuc_value" v-if="!asset">0.00</div>
             <div>USDT</div>
           </div>
           <div class="botuc">
-            <div v-if="asset">{{ asset.FIL ? asset.FIL : '0' | hideMiddle }}</div>
-            <div v-if="!asset">0.00</div>
+            <div class="botuc_value" v-if="asset">{{ asset.FIL ? asset.FIL : '0' | hideMiddle }}</div>
+            <div class="botuc_value" v-if="!asset">0.00</div>
             <div>FIL</div>
           </div>
           <div class="botuc">
-            <div>{{ hhas }}T</div>
+            <div class="botuc_value">{{ hhas }}T</div>
             <div>矿机</div>
           </div>
           <div class="botuc" style="border:none;">
-            <div>{{ down_xj.length }}</div>
+            <div class="botuc_value">{{ down_xj.length }}</div>
             <div>成员</div>
           </div>
         </div>
@@ -363,6 +364,11 @@ export default {
       this.$router.push({
         path: `/reward`
       })
+    },
+    gosign(){
+      this.$router.push({
+        path: `/Signin`
+      })
     }
   }
 }
@@ -373,13 +379,13 @@ export default {
 .userinfo{
   width: 100%;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #031A2E;
+    background-color: rgba(26,26,26,1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -398,8 +404,8 @@ export default {
       color:rgba(255, 255, 255, 1);
      }
     .icon_right{
-      width: 22px;
-      height: 22px;
+      font-size: 14px;
+      color:rgba(255, 255, 255, 1);
       img{
         width: 100%;
         display: block;
@@ -414,7 +420,7 @@ export default {
     .fuon{
       width:100%;
       min-height:133px;
-      background:rgba(2,21,38,1);
+      background: rgba(26,26,26,1);
       border-radius:10px;
       .fuon1{
         width: 100%;
@@ -441,14 +447,15 @@ export default {
               height:25px;
               font-size:18px;
               font-weight:500;
-              color:rgba(0,210,214,1);
+              color:rgba(0, 209, 255, 1);
               line-height:25px;
+              margin-bottom: 5px;
             }
             .user_phone{
               height:20px;
               font-size:14px;
               font-weight:400;
-              color:rgba(0,210,214,1);
+              color:rgba(255,255,255,1);
               line-height:20px;
             }
           }
@@ -472,7 +479,7 @@ export default {
             width: 100%;
             font-size:16px;
             font-weight:500;
-            color:rgba(0, 210, 214, 1);
+            color:rgba(255,255,255, 1);
             line-height:22px;
             word-break: break-all;
             word-wrap: break-word;
@@ -482,7 +489,7 @@ export default {
             height:14px;
             font-size:10px;
             font-weight:400;
-            color:rgba(0, 210, 214, 1);
+            color:rgba(0, 209, 255, 1);
             line-height:14px;
             // margin-top: 5px;
           }
@@ -509,7 +516,7 @@ export default {
         margin-left: 10px;
         font-size:12px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:rgba(255,255,255,1);
         line-height:17px;
         overflow: hidden;
         text-overflow:ellipsis;
@@ -524,7 +531,7 @@ export default {
       .list_item{
         width: 48%;
         height:130px;
-        background:rgba(2,21,38,1);
+        background: rgba(26,26,26,1);
         border-radius:10px;
         display: flex;
         justify-content: center;
@@ -552,7 +559,7 @@ export default {
     }
     .new_list{
       width:100%;
-      background:rgba(2,21,38,1);
+      background: rgba(26,26,26,1);
       border-radius:10px;
       .list_item{
         width: 100%;
@@ -577,7 +584,7 @@ export default {
             height:20px;
             font-size:16px;
             font-weight:500;
-            color:rgba(0, 210, 214, 1);
+            color:rgba(255,255,255, 1);
             line-height:20px;
             margin-left: 8px;
           }
@@ -602,7 +609,7 @@ export default {
   }
   .footer{
     width: 100%;
-    background-color: #031A2E;
+    background-color:  rgba(26,26,26,1);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -649,7 +656,7 @@ export default {
       width: 70%;
       padding-top: 24px;
       box-sizing: border-box;
-      background-color: rgba(3, 26, 46, 1);
+      background-color: rgba(26,26,26,1);
       border-radius:10px;
       margin: auto;
       .tis{

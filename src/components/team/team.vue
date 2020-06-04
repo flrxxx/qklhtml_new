@@ -16,7 +16,7 @@
           <span class="name2" v-if="invite.grade_id == 0">矿友</span>
           <span class="name2" v-if="invite.grade">{{ invite.grade.title }}</span>
         </div>
-        <div class="name">
+        <div class="name" style="margin-bottom: 10px;">
           <span class="results">购买T数</span>
           <span class="results">{{ performance.own_buy }} T</span>
           <span class="results">推广业绩</span>
@@ -230,7 +230,7 @@ export default {
 .team{
   width: 100%;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
@@ -272,7 +272,7 @@ export default {
       min-height: 140px;
       background: url('../../assets/team_user_rect.png') no-repeat;
       background-size: 100% 100%;
-      padding: 23px 28px;
+      padding: 10px 20px;
       box-sizing: border-box;
       .name{
         width: 100%;
@@ -280,29 +280,27 @@ export default {
         height: 30px;
         line-height: 30px;
         .name1{
-          font-size:16px;
+          font-size:21px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:#00D1FF;
           line-height:22px;
           display: inline-block;
           margin-right: 10px;
         }
         .name2{
-          padding: 0 10px;
-          height:14px;
           border-radius:9px;
-          border:1px solid rgba(255,255,255,1);
-          font-size:10px;
+          font-size:24px;
           font-weight:400;
           color:rgba(255,255,255,1);
           line-height:14px;
           display: inline-block;
-          text-align: center;
+          float:right;
+          padding-top: 15px;
         }
         .results{
-          font-size:12px;
+          font-size:14px;
           font-weight:400;
-          color:rgba(0,210,214,1);
+          color:#fff;
           display: inline-block;
           margin-right: 5px;
         }
@@ -312,10 +310,10 @@ export default {
         height:14px;
         font-size:10px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:#fff;
         line-height:14px;
         text-align: left;
-        margin-bottom: 2px;
+        margin-bottom: 5px;
       }
       .level{
         display: flex;
@@ -323,10 +321,10 @@ export default {
         .process{
           width:237px;
           height:17px;
-          border:1px solid rgba(0,210,214,1);
+          border:1px solid #00D1FF;
           .bak_ska{
             height:17px;
-            background:rgba(0,210,214,1);
+            background:#00D1FF;
           }
         }
         .level_num{
@@ -334,7 +332,7 @@ export default {
           height:17px;
           font-size:12px;
           font-weight:400;
-          color:rgba(0,210,214,1);
+          color:#fff;
           line-height:17px;
         }
       }
@@ -342,7 +340,7 @@ export default {
     .buy{
       width:100%;
       height:77px;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       border-radius:8px;
       display: flex;
       justify-content: center;
@@ -359,7 +357,7 @@ export default {
       .buy_text{
         font-size:36px;
         font-weight:500;
-        color:rgba(0,210,214,1);
+        color:rgba(255,255,255,1);
       }
     }
     .list{
@@ -369,7 +367,7 @@ export default {
       flex-flow: wrap;
       .list_item{
         width: 30%;
-        background:rgba(3,26,46,1);
+        background:rgba(26,26,26,1);
         border-radius: 8px 30px 8px 8px;
         padding: 29px 0;
         margin-bottom: 15px;
@@ -385,7 +383,7 @@ export default {
           height:17px;
           font-size:12px;
           font-weight:400;
-          color:rgba(0,210,214,0.8);
+          color:rgba(255,255,255,1);
           line-height:17px;
           margin-top: 8px;
         }
@@ -394,7 +392,7 @@ export default {
   }
   .footer{
     width: 100%;
-    background-color: #031A2E;
+    background:rgba(26,26,26,1);
     display: flex;
     justify-content: space-around;
     align-items: center;

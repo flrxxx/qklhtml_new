@@ -19,7 +19,7 @@
             <span class="name2" v-if="invite.grade">{{ invite.grade.title }}</span>
             <!-- <span class="name2">旷工</span> -->
           </div>
-          <div class="name">
+          <div class="name" style="margin-bottom: 15px;">
             <span class="results1">个人业绩</span>
             <span class="results1">{{ performance.own_buy }} T</span>
             <span class="results1">团队业绩</span>
@@ -118,13 +118,13 @@ export default {
 .results{
   width: 100%;
   min-height: 100vh;
-  background-color: #01101D;
+  background-color: rgba(16,16,16,1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3, 26, 46, 1);
+    background-color: rgba(26, 26, 26, 1);
     padding: 0 16px;
     box-sizing: border-box;
     // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -160,7 +160,7 @@ export default {
       width: 100%;
       padding: 8px 10px;
       box-sizing: border-box;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       border-radius:4px;
       margin-bottom: 8px;
       .leuoj{
@@ -168,10 +168,10 @@ export default {
         height:20px;
         font-size:14px;
         font-weight:500;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
         line-height:20px;
         padding-left: 8px;
-        border-left: 3px solid rgba(0,210,214,0.8);
+        border-left: 3px solid rgba(0, 209, 255, 1);
         text-align: left;
         box-sizing: border-box;
       }
@@ -180,7 +180,7 @@ export default {
         height:22px;
         font-size:16px;
         font-weight:500;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
         line-height:22px;
         margin-bottom: 20px;
       }
@@ -190,7 +190,7 @@ export default {
       min-height: 140px;
       background: url('../../assets/team_user_rect.png') no-repeat;
       background-size: 100% 100%;
-      padding: 23px 28px;
+      padding: 10px 20px;
       box-sizing: border-box;
       .name{
         width: 100%;
@@ -198,29 +198,27 @@ export default {
         height: 30px;
         line-height: 30px;
         .name1{
-          font-size:16px;
+          font-size:21px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:#00D1FF;
           line-height:22px;
           display: inline-block;
           margin-right: 10px;
         }
         .name2{
-          padding: 0 10px;
-          height:14px;
           border-radius:9px;
-          border:1px solid rgba(255,255,255,1);
-          font-size:10px;
+          font-size:24px;
           font-weight:400;
           color:rgba(255,255,255,1);
           line-height:14px;
           display: inline-block;
-          text-align: center;
+          float:right;
+          padding-top: 15px;
         }
         .results1{
-          font-size:12px;
+          font-size:14px;
           font-weight:400;
-          color:rgba(0,210,214,1);
+          color:#fff;
           display: inline-block;
           margin-right: 5px;
         }
@@ -230,10 +228,10 @@ export default {
         height:14px;
         font-size:10px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:#fff;
         line-height:14px;
         text-align: left;
-        margin-bottom: 2px;
+        margin-bottom: 5px;
       }
       .level{
         display: flex;
@@ -241,10 +239,10 @@ export default {
         .process{
           width:237px;
           height:17px;
-          border:1px solid rgba(0,210,214,1);
+          border:1px solid #00D1FF;
           .bak_ska{
             height:17px;
-            background:rgba(0,210,214,1);
+            background:#00D1FF;
           }
         }
         .level_num{
@@ -252,7 +250,7 @@ export default {
           height:17px;
           font-size:12px;
           font-weight:400;
-          color:rgba(0,210,214,1);
+          color:#fff;
           line-height:17px;
         }
       }
@@ -262,7 +260,7 @@ export default {
       height:22px;
       font-size:16px;
       font-weight:500;
-      color:rgba(0,210,214,1);
+      color:rgba(0, 209, 255, 1);
       line-height:22px;
       margin-bottom: 20px;
     }
@@ -271,7 +269,7 @@ export default {
       display:block;
       width:40px;
       height:2px;
-      background:rgba(0,210,214,0.8);
+      background:rgba(0, 209, 255, 1);
       border-radius:1px;
       margin: 0 auto;
       margin-top: 3px;
@@ -281,7 +279,7 @@ export default {
       .list{
         width: 100%;
         padding: 10px 19px;
-        background:rgba(3,26,46,1);
+        background:rgba(26,26,26,1);
         border-radius:4px;
         text-align: left;
         margin-bottom: 8px;
@@ -290,7 +288,7 @@ export default {
           height:29px;
           font-size:21px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:rgba(0, 209, 255, 1);
           line-height:29px;
         }
         .list_time{
@@ -319,7 +317,7 @@ export default {
         height:22px;
         font-size:16px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
         line-height:22px;
         margin-top: 5px;
       }

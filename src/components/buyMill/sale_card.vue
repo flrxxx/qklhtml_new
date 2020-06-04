@@ -9,7 +9,7 @@
       </div>
       <div class="card_list">
         <div v-if="cardlist.length">
-          <div class="card_item" v-for="item in cardlist" v-bind:key="item.cash_coupon_id">
+          <div class="card_item" v-for="item in cardlist" :key="item.id">
             <div class="card_body">
               <div class="card_leftinfo">
                 <div class="card_num">{{item.num}}</div>
@@ -18,7 +18,7 @@
               <div class="card_name">
                 <div class="card_info">
                   <div class="card_name_text">{{item.title}}</div>
-                  <div class="card_name_time">{{item.use_time}}</div>
+                  <div class="card_name_time">{{item.created_at}}</div>
                 </div>
                 <div class="checkthis" v-bind:data-id="item.cash_coupon_id" @click="selectitem(item.cash_coupon_id)">选择</div>
               </div>
@@ -41,9 +41,11 @@ export default {
   data () {
     return {
       cardlist: [],
+      number:1
     }
   },
   mounted () {
+    this.number = this.$route.params.number ? this.$route.params.number :1;
     if(window.localStorage.salecard && window.localStorage.salecard != 'null'){
       this.cardlist = JSON.parse(window.localStorage.salecard);
     }else{
@@ -57,10 +59,9 @@ export default {
       this.$router.go(-1)
     },
     selectitem(id){
-      console.log(id);
       this.$router.push({
         name:'buyMill',
-        params: {id: id}
+        params: {id: id, number:this.number}
       })
     }
   }

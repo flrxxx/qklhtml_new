@@ -77,13 +77,13 @@ export default {
 .helpDetails{
   width: 100%;
   min-height: 100vh;
-  background-color: rgba(1, 16, 29, 1);
+  background-color: rgba(16, 16, 16, 1);
   .header{
     height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(3,26,46,1);
+    background-color: rgba(26,26,26,1);
     padding: 0 16px;
     box-sizing: border-box;
     .icon_left{
@@ -115,7 +115,7 @@ export default {
     margin-top: 30px;
     .ddo{
       width:100%;
-      background:rgba(3,26,46,1);
+      background:rgba(26,26,26,1);
       border-radius:4px;
       padding: 15px 17px;
       box-sizing: border-box;
@@ -131,7 +131,7 @@ export default {
         width: 5px;
         height: 15px;
         display: inline-block;
-        background:rgba(0, 210, 214, 0.8);
+        background:rgba(0,243,255,1);
         margin-right: 5px;
       }
       .zx_text{
@@ -139,7 +139,7 @@ export default {
         font-size:16px;
         font-family:PingFangSC-Medium,PingFang SC;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(0,243,255,1);
         line-height:22px;
       }
     }
@@ -149,7 +149,7 @@ export default {
       font-size:14px;
       font-family:PingFangSC-Regular,PingFang SC;
       font-weight:400;
-      color:rgba(0, 210, 214, 1);
+      color:rgba(255,255,255,1);
       line-height:20px;
       text-align: left;
     }
@@ -159,7 +159,7 @@ export default {
       font-size:12px;
       font-family:PingFangSC-Regular,PingFang SC;
       font-weight:400;
-      color:rgba(0, 210, 214, 1);
+      color:rgba(255,255,255, 1);
       line-height:17px;
       text-align: right;
       margin-top: 10px;
