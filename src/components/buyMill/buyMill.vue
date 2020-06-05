@@ -147,7 +147,8 @@
     </div>
     <div class="tangj" v-if="balance" @click.self="close1()">
       <div class="desout">
-        <div class="tis" style="text-align: center;">余额不足</div>
+        <div class="tis" style="text-align: center;">提示</div>
+        <div class="name" style="margin-bottom: 15px;">余额不足</div>
         <div class="two">
           <div class="two_left" @click.stop="close1()">取消</div>
           <div class="two_right" @click.stop="go_myAssets()">去充值</div>
@@ -1166,11 +1167,11 @@ export default {
         height:40px;
         line-height: 40px;
         border-radius:4px;
-        border:1px solid rgba(0,210,214,0.8);
+        border:1px solid #00D1FF;
         background-color: rgba(0, 210, 214, 0);
         font-size:14px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:#00D1FF;
       }
       .tis{
         width: 90%;
@@ -1179,7 +1180,7 @@ export default {
         text-align: left;
         font-size:16px;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:#00D1FF;
         line-height:22px;
         margin-bottom: 7px;
       }
@@ -1189,7 +1190,7 @@ export default {
         height:20px;
         font-size:14px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:rgba(255,255,255, 1);
         line-height:20px;
       }
       .two{
@@ -1204,17 +1205,17 @@ export default {
           border-right: 1px solid rgba(0, 210, 214, 0.1);
           height: 40px;
           line-height: 40px;
-          font-size:16px;
+          font-size:14px;
           font-weight:400;
-          color:rgba(0, 210, 214, 1);
+          color:#00D1FF;
         }
         .two_right{
           width: 50%;
           height: 40px;
           line-height: 40px;
-          font-size:16px;
+          font-size:14px;
           font-weight:400;
-          color:rgba(0, 210, 214, 1);
+          color:#00D1FF;
         }
       }
     }

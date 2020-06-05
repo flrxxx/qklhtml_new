@@ -681,7 +681,7 @@ export default {
         text-align: center;
         font-size:16px;
         font-weight:500;
-        color:rgba(0, 210, 214, 1);
+        color:#00D1FF;;
         line-height:22px;
         margin-bottom: 7px;
       }
@@ -691,7 +691,7 @@ export default {
         height:20px;
         font-size:14px;
         font-weight:400;
-        color:rgba(0, 210, 214, 1);
+        color:#fff;
         line-height:20px;
       }
       .two{
@@ -706,17 +706,17 @@ export default {
           border-right: 1px solid rgba(0, 210, 214, 0.1);
           height: 40px;
           line-height: 40px;
-          font-size:16px;
+          font-size:14px;
           font-weight:400;
-          color:rgba(0, 210, 214, 1);
+          color:#00D1FF;
         }
         .two_right{
           width: 50%;
           height: 40px;
           line-height: 40px;
-          font-size:16px;
+          font-size:14px;
           font-weight:400;
-          color:rgba(0, 210, 214, 1);
+          color:#00D1FF;
         }
       }
     }
