@@ -227,8 +227,6 @@ export default {
 <style scoped lang="scss">
 .charge{
   width: 100%;
-  min-height: 100vh;
-  min-height: 100vh;
   background-color: rgba(16,16,16,1);
   .header{
     height: 44px;

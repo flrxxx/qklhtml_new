@@ -48,7 +48,7 @@
       <div class="title">
         <div class="leuoj">提现须知</div>
         1.最小提现数量为{{forward_min}} {{unit}}，最大提币数量{{once_max}} {{unit}}。<br/>
-        2.提现每笔手续费为提现数额的{{forward_fee}}，每天最多提币次数{{daily_times_max}}次<br/>
+        2.提现每笔手续费为提现数额的{{forward_fee * 100}}%，每天最多提币次数{{daily_times_max}}次<br/>
         4.为保障提现顺利，请您认真填写并核对提现地址。<br/>
         5.提交提现订单后，系统将自动审核，审核无误后，提取的{{unit}}将自动存入您填写的提现地址中。
       </div>

@@ -170,13 +170,6 @@ export default {
 }
 </script>
 <style>
-  body,html{
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    font-size: 20px;
-  }
-
   @media screen and (min-width: 320px) {
     html {font-size: 20px;}
   }
@@ -204,11 +197,7 @@ export default {
   @media screen and (min-width: 750px) {
     html {font-size: 40px;}
   }
-  #app{
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-  }
+
 </style>
 <style scoped lang="scss">
   .signin{

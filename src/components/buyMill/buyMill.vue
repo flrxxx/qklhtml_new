@@ -482,7 +482,7 @@ export default {
               type: 'success'
             })
             this.$router.push({
-              path: `/record/2/${this.unit}`
+              path: `/myOrder/2`
             })
           }else{
             this.$refs.business.value = '';
