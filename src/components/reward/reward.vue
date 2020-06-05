@@ -8,7 +8,8 @@
       <div class="icon_right">
       </div>
     </div>
-    <div class="content">
+    <div class="scroll_dom">
+      <div class="content">
       <!-- <div class="title">
         <div class="leuoj">奖励说明</div>
         1、此地址为USDT的充值地址,可以重复充值，如地址更改，我们将以官方公告的形式通知<br>
@@ -21,25 +22,25 @@
         <div class="team_num">
           <div style="margin-bottom: 15px; width: 100%;">
           <div class="num" >
-            <div class="num_1">团队1 <font>{{ item.num > 0 ? '已达标' : '未达标' }}</font></div>
+            <div class="num_1">团队1 <font>{{ item.satisfy - item.standard[0].sum_buy > 0 ? '剩余'+(item.satisfy - item.standard[0].sum_buy) : '已达标' }}</font></div>
             <div class="typenum">
-              <div class="num_2"><div class="nowline" :style="{width: item.num > 0 ? '100%' : '0%'}"></div></div>
-              <div class="nowtext">{{ item.num > 0 ? '100%' : '0%' }}</div>
+              <div class="num_2"><div class="nowline" :style="{width: ((item.standard[0].sum_buy / item.satisfy) *100) + '%'}"></div></div>
+              <div class="nowtext">{{(Math.ceil(((item.standard[0].sum_buy / item.satisfy) *10000)))/100  + '%' }}</div>
             </div>
 
           </div>
           <div class="num" >
-            <div class="num_1">团队2 <font>{{ item.num > 1 ? '已达标' : '未达标' }}</font></div>
+            <div class="num_1">团队2 <font>{{ item.satisfy - item.standard[1].sum_buy > 0 ? '剩余'+(item.satisfy - item.standard[1].sum_buy) : '已达标' }}</font></div>
             <div class="typenum">
-              <div class="num_2"><div class="nowline" :style="{width: item.num > 0 ? '100%' : '0%'}"></div></div>
-              <div class="nowtext">{{ item.num > 1 ? '100%' : '0%' }}</div>
+              <div class="num_2"><div class="nowline" :style="{width: ((item.standard[1].sum_buy / item.satisfy) *100) + '%'}"></div></div>
+              <div class="nowtext">{{(Math.ceil(((item.standard[1].sum_buy / item.satisfy) *10000)))/100  + '%' }}</div>
             </div>
           </div>
           <div class="num" >
-            <div class="num_1">团队3 <font>{{ item.num > 2 ? '已达标' : '未达标' }}</font></div>
+            <div class="num_1">团队3 <font>{{ item.satisfy - item.standard[2].sum_buy > 0 ? '剩余'+(item.satisfy - item.standard[2].sum_buy) : '已达标' }}</font></div>
             <div class="typenum">
-              <div class="num_2"><div class="nowline" :style="{width: item.num > 0 ? '100%' : '0%'}"></div></div>
-              <div class="nowtext">{{ item.num > 2 ? '100%' : '0%' }}</div>
+              <div class="num_2"><div class="nowline" :style="{width: ((item.standard[2].sum_buy / item.satisfy) *100) + '%'}"></div></div>
+              <div class="nowtext">{{(Math.ceil(((item.standard[2].sum_buy / item.satisfy) *10000)))/100  + '%' }}</div>
             </div>
           </div>
           </div>
@@ -54,6 +55,7 @@
         </div>
         <div class="data_text">暂无数据</div>
       </div> -->
+    </div>
     </div>
   </div>
 </template>
@@ -71,7 +73,7 @@ export default {
   },
   methods: {
     init () {
-      this.$post('/grade/standardList')
+      this.$post('/get/standardSum')
         .then(res => {
 
           this.list = res.data
@@ -117,7 +119,20 @@ export default {
 <style scoped lang="scss">
 .reward{
   width: 100%;
+  position: absolute;
+  top:0;
+  right: 0;
+  left: 0;
+  bottom:0;
   background-color: rgba(16,16,16,1);
+  .scroll_dom{
+    position: absolute;
+    top:44px;
+    bottom:0px;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+  }
   .header{
     height: 44px;
     display: flex;

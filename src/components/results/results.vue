@@ -1,5 +1,5 @@
 <template>
-  <div class="results">
+  <div class="results" >
     <div class="header">
       <div class="icon_left" @click="back()">
         <img src="../../assets/public_back.png" alt="icon"/>
@@ -8,7 +8,8 @@
       <div class="icon_right">
       </div>
     </div>
-    <div class="content">
+    <div class="scroll_page">
+      <div class="content">
       <div class="big">
         <div class="leuoj">我的业绩</div>
         <div class="userinfo">
@@ -34,12 +35,35 @@
           </div>
         </div>
       </div>
-      <div class="my_team">业绩变化记录</div>
+      <div class="my_team">推广奖励</div>
       <div class="zo_list" v-if="list.length > 0">
         <div class="list" v-for="(item, index) in list" :key="index">
-          <div class="list_res">个人业绩 +{{ item.num }} T</div>
-          <div class="list_time">{{ item.created_at }}</div>
+          <div class="list_title">
+            <div class="list_title_name">{{item.UID}}</div>
+            <div class="list_title_time">{{item.created_at}}</div>
+          </div>
+          <div class="list_time">
+            <div class="listtimeicon">
+              <img src="../../assets/team_buy_tcount.png">
+            </div>
+            <div class="listitem_box">
+              <div class="listitem_line">
+                <div class="listitem_label">购买T数</div>
+                <div class="listitem_text">{{item.num}}T</div>
+              </div>
+              <div class="listitem_line">
+                <div class="listitem_label">获得收益</div>
+                <div class="listitem_text">{{item.reward_num}} USDT</div>
+              </div>
+              <div class="listitem_line">
+                <div class="listitem_label">手续费</div>
+                <div class="listitem_text">{{item.fee}} USDT ({{item.sell_brokerage}}%)</div>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="nextpage" v-show=" this.last_page > this.current_page && this.last_page > 1" @click="nextpage()">查看更多</div>
+        <div class="nomore" v-show="this.last_page <= this.current_page && this.last_page > 1">没有更多了</div>
       </div>
       <div class="no_data" v-if="list.length == 0">
         <div class="data_tbm">
@@ -47,6 +71,8 @@
         </div>
         <div class="data_text">暂无数据</div>
       </div>
+
+    </div>
     </div>
   </div>
 </template>
@@ -61,7 +87,10 @@ export default {
       invite: {},
       performance: {},
       pert: {},
-      list: []
+      list: [],
+      current_page:1,
+      last_page:1,
+      page:1
     }
   },
   mounted () {
@@ -101,9 +130,23 @@ export default {
           this.performance = res.data
           this.health = res.percent + '%'
         })
-      this.$post('/order/orderList', {pay_status: 1})
+      this.$post('/grade/sell/getReward', {page:this.page,pageSize:10})
         .then(res => {
+          this.current_page = res.data.current_page;
+          this.last_page = res.data.last;
           this.list = res.data.data
+        })
+    },
+    nextpage(){
+      this.page++;
+      this.$post('/grade/sell/getReward', {page:this.page,pageSize:10})
+        .then(res => {
+          this.current_page = res.data.current_page;
+          this.last_page = res.data.last;
+          for(var i = 0; i <res.data.data.length ; i++){
+            this.list.push(res.data.data[i]);
+          }
+
         })
     },
     back () {
@@ -117,8 +160,20 @@ export default {
 <style scoped lang="scss">
 .results{
   width: 100%;
-  min-height: 100vh;
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom:0;
   background-color: rgba(16,16,16,1);
+  .scroll_page{
+    position: absolute;
+    top:44px;
+    left: 0;
+    right: 0;
+    bottom:0;
+    overflow-y: auto;
+  }
   .header{
     height: 44px;
     display: flex;
@@ -278,12 +333,67 @@ export default {
       width: 100%;
       .list{
         width: 100%;
-        padding: 10px 19px;
+        padding: 5px 19px 10px;
         background:rgba(26,26,26,1);
         border-radius:4px;
         text-align: left;
         margin-bottom: 8px;
         box-sizing: border-box;
+        .list_title{
+          display: flex;
+          justify-content: space-between;
+          border-bottom:1px solid rgba(16,16,16,1);
+          padding-bottom: 5px;
+          .list_title_name{
+            color:#fff;
+            font-size: 14px;
+            height: 1.2rem;
+            line-height: 1.2rem;
+            text-align: left;
+          }
+          .list_title_time{
+            color:#fff;
+            font-size: 12px;
+            height: 1.2rem;
+            line-height: 1.2rem;
+            text-align: right;
+            width: 140px;
+          }
+        }
+        .list_time{
+          padding-top: 10px;
+          display: flex;
+          justify-content: flex-start;
+          .listtimeicon{
+            height: 3rem;
+            width: 3rem;
+            margin-right: 0.5rem;
+            img{
+              width: 100%;
+              height: 100%;
+              display: block;
+            }
+          }
+          .listitem_box{
+            .listitem_line{
+              height: 1rem;
+              line-height: 1rem;
+              display: flex;
+              justify-content: flex-start;
+              .listitem_label{
+                width: 120px;
+                font-size: 14px;
+                color:rgba(0, 209, 255, 1);
+              }
+              .listitem_text{
+                width: 100%;
+                font-size: 14px;
+                color:#fff;
+                padding-left: 5px;
+              }
+            }
+          }
+        }
         .list_res{
           height:29px;
           font-size:21px;
@@ -292,12 +402,10 @@ export default {
           line-height:29px;
         }
         .list_time{
-          height:14px;
           font-size:10px;
           font-family:PingFangSC-Regular,PingFang SC;
           font-weight:400;
           color:rgba(255,255,255,1);
-          line-height:14px;
         }
       }
     }
@@ -322,6 +430,22 @@ export default {
         margin-top: 5px;
       }
     }
+  }
+  .nextpage{
+    margin-top: 15px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    text-align: center;
+    color:rgba(0,209,255,1)
+  }
+  .nomore{
+    margin-top: 15px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    text-align: center;
+    color:rgba(255,255,255,0.7)
   }
 }
 </style>

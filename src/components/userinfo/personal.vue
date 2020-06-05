@@ -96,7 +96,7 @@ export default {
               }]
             }else if(res.data.user[0].user.is_verified == '2'){
               this.diolog.title ='实名认证审核未通过'
-              this.diolog.text = '失败原因:'+ res.fail_reason;
+              this.diolog.text = '失败原因:'+ res.data.user[0].fail_reason;
               this.diolog.btn = [{
                 text:"取消",
                 callback:() =>{

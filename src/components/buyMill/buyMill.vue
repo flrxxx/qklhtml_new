@@ -207,7 +207,8 @@ export default {
       order_card_id:'',
       detu: false,
       img_bo: null,
-      moving: false // 是否正在绘制中且移动
+      moving: false, // 是否正在绘制中且移动
+      cash_coupon_id:''
     }
   },
   mounted () {
@@ -271,7 +272,8 @@ export default {
             this.hasdate = 'nothing';
           }else{
             for(var i = 0; i < res.data.length; i++){
-              if(res.data[i].cash_coupon_id == this.$route.params.id){
+              if(res.data[i].id == this.$route.params.id){
+                this.cash_coupon_id = this.$route.params.id;
                 this.saleflag = false
                 this.salecard = '-' + res.data[i].num + ' ' + res.data[i].unit
                 this.hasdate = '';
@@ -319,7 +321,6 @@ export default {
         this.$post('/user/sendCode', {phone: this.phonenum})
           .then(res => {
             this.codesend = true;
-            console.log(res);
             if (res.status === 10001) {
               this.$message({
                 message: res.msg,
@@ -578,7 +579,6 @@ export default {
       let y = e.changedTouches[0].clientY - this.offsettop
       this.point.x = x
       this.point.y = y
-      console.log(y)
       this.ctx.beginPath()
       this.moving = true
     },

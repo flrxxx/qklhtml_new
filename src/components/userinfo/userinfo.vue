@@ -106,6 +106,17 @@
             <img src="../../assets/user_right.png"/>
           </div>
         </div>
+        <div class="list_item" @click="salecard()">
+          <div class="list_tub">
+            <div class="list_tou">
+              <img src="../../assets/user_sale.png"/>
+            </div>
+            <div class="list_text">我的优惠</div>
+          </div>
+          <div class="more">
+            <img src="../../assets/user_right.png"/>
+          </div>
+        </div>
         <div class="list_item" @click="myOrder()">
           <div class="list_tub">
             <div class="list_tou">
@@ -322,6 +333,11 @@ export default {
     notice () {
       this.$router.push({
         path: `/notice`
+      })
+    },
+    salecard(){
+      this.$router.push({
+        path: `/buyMill/sale_cardpage`
       })
     },
     myAssets () {
@@ -603,7 +619,7 @@ export default {
         line-height: 50px;
         font-size:16px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);
       }
     }
   }

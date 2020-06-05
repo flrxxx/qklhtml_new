@@ -18,9 +18,9 @@
               <div class="card_name">
                 <div class="card_info">
                   <div class="card_name_text">{{item.title}}</div>
-                  <div class="card_name_time">{{item.created_at}}</div>
+                  <div class="card_name_time">{{item.cash_coupon.info}}</div>
                 </div>
-                <div class="checkthis" v-bind:data-id="item.cash_coupon_id" @click="selectitem(item.cash_coupon_id)">选择</div>
+                <div class="checkthis" v-bind:data-id="item.id" @click="selectitem(item.id)">选择</div>
               </div>
             </div>
           </div>

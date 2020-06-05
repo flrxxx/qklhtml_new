@@ -162,7 +162,7 @@ export default {
   min-height: 100vh;
   background: url('../../assets/login_bg.png') no-repeat;
   background-size: 100% 100%;
-  background-color: rgba(1, 16, 29, 1);
+  background-color: rgba(16, 16, 16, 1);
   .header{
     height: 44px;
     display: flex;
@@ -223,13 +223,13 @@ export default {
         .text{
           font-size:14px;
           font-weight:500;
-          color:rgba(0,210,214,1);
+          color:rgba(0, 209, 255, 1);
         }
       }
       .phone_num{
         width: 100%;
         height: 30px;
-        border-bottom: 1px solid rgba(0, 210, 214, 1);
+        border-bottom: 1px solid rgba(0, 209, 255, 1);
         margin-bottom: 8px;
         input{
           width: 100%;
@@ -259,7 +259,7 @@ export default {
           font-weight:400;
           color:rgba(255,255,255,1);
           border: none;
-          border-bottom: 1px solid rgba(0, 210, 214, 1);
+          border-bottom: 1px solid rgba(0, 209, 255, 1);;
           background: none;
           outline: none;
           text-indent: 5px;
@@ -290,7 +290,7 @@ export default {
         height:20px;
         font-size:12px;
         font-weight:400;
-        color:rgba(0,210,214,1);
+        color:rgba(0, 209, 255, 1);;
         line-height:20px;
         display: flex;
         align-items: center;

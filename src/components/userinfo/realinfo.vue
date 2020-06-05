@@ -21,7 +21,7 @@
         </div>
         <div class="pasfm">
           <div class="pasfm1">&nbsp;&nbsp;证件号&nbsp;</div>
-          <input type="text" placeholder="请输入证件号" class="ipt" id="idcard" @blur="xycard" v-model="card_no">
+          <input type="text" placeholder="请输入证件号" class="ipt" maxlength="18" id="idcard" @blur="xycard" v-model="card_no">
         </div>
         <div class="cflp">
           <div class="pasfm" style="flex: 1;margin-bottom: 0">

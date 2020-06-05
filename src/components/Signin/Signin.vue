@@ -124,6 +124,7 @@ export default {
             that.nowline = that.day > 0 ? that.day < that.fullday ? (that.day / that.fullday) * 100 : 100 : 0
             that.jfline = that.jf > 0 ? that.jf < that.fullend ? (that.jf / that.fullend) * 100  : 100 : 0
             var dayslength =  res.data.days.length;
+            that.daylist = [];
             for(var i = 0; i < res.data.end; i++){
               var temp = {};
               temp.day = i + 1;

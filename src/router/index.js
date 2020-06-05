@@ -127,6 +127,17 @@ const router = new Router({
       name: 'salecard',
       component: () => import('../components/buyMill/sale_card.vue')
     },
+    {
+      path: '/buyMill/sale_cardpage',
+      name: 'sale_cardpage',
+      component: () => import('../components/buyMill/sale_cardpage.vue')
+    },
+    // 赠送优惠券
+    {
+      path: '/buyMill/give_salecard',
+      name: 'give_salecard',
+      component: () => import('../components/buyMill/give_salecard.vue')
+    },
     // 合同
     {
       path: '/contract',
