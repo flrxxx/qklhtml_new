@@ -11,10 +11,24 @@
     </div>
     <div class="content">
       <div class="back_cv">
-        <div class="leuoj" style="margin-bottom: 0;">充值地址</div>
+        <div class="leuoj" style="margin-bottom: 0;">USDT汇入地址</div>
         <div class="coin_wallet">
-          <div id = "inviteCode" >{{ cn_new }}</div>
-          <div @click="copyLink()">复制地址</div>
+          <div id = "inviteCode" >{{omniAddress}}</div>
+          <div @click="copyLink('1')">复制地址</div>
+
+        </div>
+        <div class="codebox" v-show="omniUrl">
+          <img :src="omniUrl">
+        </div>
+      </div>
+      <div class="back_cv">
+        <div class="leuoj" style="margin-bottom: 0;">基于以太网络的ERC20地址</div>
+        <div class="coin_wallet">
+          <div id = "inviteCode1" >{{ERC20Address}}</div>
+          <div @click="copyLink('2')">复制地址</div>
+        </div>
+        <div class="codebox" v-show="ERC20Url">
+          <img :src="ERC20Url">
         </div>
       </div>
       <div class="back_cv">
@@ -60,7 +74,10 @@ export default {
   data () {
     return {
       unit: '',
-      cn_new: '',
+      omniAddress: '',
+      ERC20Address:'',
+      omniUrl:'',
+      ERC20Url:'',
       unkdh: {
         files: []
       },
@@ -85,9 +102,9 @@ export default {
       })
     },
     init () {
-      this.$post('/coin/recharge/address', {unit: this.unit})
+      this.$post('/coin/usdt/address', {unit: this.unit})
         .then(res => {
-          this.cn_new = res.address
+
           if (res.status === 10001) {
             this.$message({
               message: res.msg,
@@ -96,6 +113,11 @@ export default {
             this.$router.push({
               path: `/`
             })
+          }else{
+            this.omniAddress = res.data.omniAddress
+            this.ERC20Address = res.data.ERC20Address
+            this.omniUrl = res.data.omniUrl
+            this.ERC20Url = res.data.ERC20Url
           }
         })
     },
@@ -177,8 +199,13 @@ export default {
         })
       }
     },
-    copyLink () {
-      var Url2 = document.getElementById('inviteCode').innerText
+    copyLink (type) {
+      if(type == '1'){
+        var Url2 = document.getElementById('inviteCode').innerText
+      }else{
+        var Url2 = document.getElementById('inviteCode1').innerText
+      }
+
       var oInput = document.createElement('input')
       oInput.value = Url2
       document.body.appendChild(oInput)
@@ -331,7 +358,7 @@ export default {
       justify-content: space-between;
       text-align: left;
       div:nth-child(1){
-        font-size:16px;
+        font-size:12px;
         font-weight:400;
         color:rgba(0, 210, 214, 0.8);
         flex: 1;
@@ -433,6 +460,15 @@ export default {
     color:rgba(255,255,255,1);
     // background-color: red; /* 不支持线性的时候显示 */
     // background-image: linear-gradient(to bottom right, #00F3FF , #00A0FF);
+  }
+  .codebox{
+    width: 30%;
+    margin: 0 auto;
+    img{
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
   }
 }
 </style>

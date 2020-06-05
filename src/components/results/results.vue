@@ -62,8 +62,8 @@
             </div>
           </div>
         </div>
-        <div class="nextpage" v-show=" this.last_page > this.current_page && this.last_page > 1" @click="nextpage()">查看更多</div>
-        <div class="nomore" v-show="this.last_page <= this.current_page && this.last_page > 1">没有更多了</div>
+        <div class="nextpage" v-show="last_page > current_page && last_page > 1" @click="nextpage()">查看更多</div>
+        <div class="nomore" v-show="last_page <= current_page && last_page > 1">没有更多了</div>
       </div>
       <div class="no_data" v-if="list.length == 0">
         <div class="data_tbm">
@@ -133,7 +133,7 @@ export default {
       this.$post('/grade/sell/getReward', {page:this.page,pageSize:10})
         .then(res => {
           this.current_page = res.data.current_page;
-          this.last_page = res.data.last;
+          this.last_page = res.data.last_page;
           this.list = res.data.data
         })
     },
@@ -142,7 +142,7 @@ export default {
       this.$post('/grade/sell/getReward', {page:this.page,pageSize:10})
         .then(res => {
           this.current_page = res.data.current_page;
-          this.last_page = res.data.last;
+          this.last_page = res.data.last_page;
           for(var i = 0; i <res.data.data.length ; i++){
             this.list.push(res.data.data[i]);
           }
@@ -331,6 +331,7 @@ export default {
     }
     .zo_list{
       width: 100%;
+      padding-bottom: 15px;
       .list{
         width: 100%;
         padding: 5px 19px 10px;
